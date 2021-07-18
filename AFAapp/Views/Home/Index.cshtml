@@ -1,0 +1,180 @@
+﻿@model AFAapp.Models.AFA
+
+
+@{
+    ViewData["Title"] = "Home Page";
+
+    @*Layout = null;*@
+}
+
+
+
+
+@*<div>
+        <button type="button" class="btn btn-secondary">OR</button>
+        <button type="button" class="btn btn-secondary">AND</button>
+        <button type="button" class="btn btn-secondary">NOT</button>
+    </div>
+
+    <br />*@
+
+
+@*<div class="col-sm-2">
+        <form>
+
+            <input asp-for="initialState" class="form-control" placeholder="Initial State" type="text">
+            <br />
+            <input asp-for="finalStates" class="form-control" placeholder="Final States" type="text">
+        </form>
+    </div>
+
+
+    <br />*@
+
+
+
+
+
+
+
+<head>
+
+    @*<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css">*@
+    <link rel="stylesheet" href="~/css/homePage.css" />
+    @*<link rel="stylesheet" href="~/css/site.css" />*@
+    <!--<style>
+        .table th {-->
+    @*text-align: center;*@
+    <!--vertical-align: middle;
+        }
+    </style>-->
+    <title>Alternating Finite Automata</title>
+
+</head>
+
+<body>
+    <div class="row-fluid mb-5 bg-warning">
+        <div class="span6 column">
+            <h3> Input AFA </h3>
+
+            <div class="instructions">
+                <p align="justify">
+                    Enter a FSM into the input field below or click <strong>Generate random DFA/NFA/eNFA</strong> to have the app generate a simple FSM randomly for you.
+                    Next, click <strong>Create automaton</strong> to display the FSM's transition graph.
+                </p>
+
+            </div>
+
+            <br />
+            <p>
+                <button id="generateAFA" class="btn btn-info">Generate random AFA</button>
+            </p>
+
+            <br />
+
+            <form asp-controller="Home" asp-action="Tree" method="post">
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Initial State" type="text">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Final States" type="text">
+                        </div>
+                    </div>
+                </div>
+                @*<div class="d-flex">*@
+
+
+                <div class="table-responsive search-table-outter">
+                    <table class="table table-bordered">
+                        <col class="bg-light"> </col>
+
+                        <thead>
+                            <tr class="bg-light">
+                                <th class=" text-center align-middle">Transition Function</th>
+                                <td class="text-center">
+                                    @*<div class="form-group">*@
+                                    <input class="form-control" placeholder="letter" type="text">
+                                    @*</div>*@
+                                </td>
+
+                                <td class="align-middle">
+                                    @*<div class="form-group">*@
+                                    <input class="form-control" placeholder="letter" type="text">
+                                    @*</div>*@
+                                </td>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @*<div class="form-group">*@
+                                    <input class="form-control" placeholder="state" type="text">
+                                    @*</div>*@
+                                </td>
+                                <td>
+                                    @*<div class="form-group">*@
+                                    <input class="form-control" placeholder="Key" type="text">
+                                    @*</div>*@
+                                </td>
+                                <td>
+                                    @*<div class="form-group">*@
+                                    <input class="form-control" placeholder="Key" type="text">
+                                    @*</div>*@
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @*<div class="form-group">*@
+                                    <input class="form-control" placeholder="state" type="text">
+                                    @*</div>*@
+                                </td>
+                                <td>
+                                    @*<div class="form-group">*@
+                                    <input class="form-control" placeholder="Key" type="text">
+                                    @*</div>*@
+                                </td>
+                                <td>
+                                    @*<div class="form-group">*@
+                                    <input class="form-control" placeholder="Key" type="text">
+                                    @*</div>*@
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-group">
+
+                    <input class="form-control" placeholder="Input Word" type="text">
+
+                </div>
+
+                <div>
+                    <button class="btn btn-success">Run</button>
+                </div>
+
+
+            </form>
+
+        </div>
+    </div>
+
+
+
+
+    <div class="row-fluid mb-5 bg-warning">
+
+        <div class="span6 column">
+            <h3> Computation </h3>
+
+        </div>
+    </div>
+
+</body>
+
+
+

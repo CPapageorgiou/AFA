@@ -1,0 +1,116 @@
+﻿row-fluid .span6 {
+    width: 48.61878453038674%;
+}
+
+
+
+
+@media {
+    .row-fluid [class*="span"] {
+        display: block;
+        float: left;
+        width: 100%;
+        min-height: 30px;
+        margin-left: 2.7624309392265194%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+}
+
+@media {
+    .row-fluid .span6 {
+        width: 48.61878453038674%;
+    }
+}
+
+@media  {
+    .row-fluid [class*="span"]:first-child {
+        margin-left: 0;
+    }
+}
+
+
+@media {
+    .row-fluid {
+        width: 100%;
+    }
+}
+
+/*    *, ::after, ::before {
+        box-sizing: border-box;
+    }*/
+
+
+
+h3 {
+    text-align: center;
+}
+
+
+
+
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /*   Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+/*.footer {
+    position: absolute;
+    margin-bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    height: 60px;
+}
+*/
+
+.span6{margin-bottom: 80px}
+
+/*.table {margin-bottom: 100px}*/
+
+/*.footer{margin-top: 1px}*/
+
+/*.span6 {
+    width: 570px
+}
+.row-fluid .span6 {
+    width: 48.717948717948715%;
+    * width: 48.664757228587014%
+}
+
+input.span6, textarea.span6, .uneditable-input.span6 {
+    width: 556px
+}
+
+.span6 {
+    width: 352px
+}
+
+.row-fluid .span6 {
+    width: 48.61878453038674%;
+    * width: 48.56559304102504%
+}
+
+input.span6, textarea.span6, .uneditable-input.span6 {
+    width: 338px
+}
+
+.span6 {
+    width: 460px
+}
+
+.row-fluid .span6 {
+    width: 48.93617021276595%;
+    * width: 48.88297872340425%
+}
+
+input.span6, textarea.span6, .uneditable-input.span6 {
+    width: 446px
+}*/
