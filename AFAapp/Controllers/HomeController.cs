@@ -24,7 +24,7 @@ namespace AFAapp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Tree()
+        public IActionResult Tree1()
         {
             var p = new Models.ProgramManager();
 
@@ -46,6 +46,50 @@ namespace AFAapp.Controllers
             tree.setConnectives();
             return View(tree);
 
+        }
+
+        //Dictionary<(string, char), string>
+        [HttpPost]
+        public Dictionary<string, string> Blah (Dictionary<string,string> transitionFun)
+        {
+            return transitionFun; 
+        }
+
+        //string[] finalStates,
+        [HttpPost]
+        public IActionResult Tree (string inputWord, string initialState, List<char> letters, List<string> states, List<string> formulas, List<bool> isFinal
+            )
+        {
+            int count = 0;
+            int statesCount = 0;
+            var finalStates = new List<string>();
+            var transitionFun = new Dictionary<(string, char), string> ();
+
+            foreach (string state in states)
+            {
+                if (isFinal[statesCount])
+                {
+                    finalStates.Add(state);
+                }
+                statesCount += 1;
+                foreach (char letter in letters)
+                {
+                    
+                    transitionFun[(state, letter)] = formulas[count];
+                    count += 1;
+                }
+            }
+
+            //string[] finalStates= { "q1" };
+
+            AFA a = new AFA(initialState, transitionFun, finalStates);
+            var p = new Models.ProgramManager();
+            ViewData["Accepted"] = p.determineAcceptance(inputWord, a);
+            ViewData["final"] = finalStates[0];
+            var (s, d) = p.activateAut(inputWord, a);
+            var tree = p.generateTree(0, d, s);
+            tree.setConnectives();
+            return View(tree);            
         }
 
 

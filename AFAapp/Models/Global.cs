@@ -19,7 +19,7 @@ namespace AFAapp.Models
 
             { ("q1",'b'), "not q0" } },
 
-            new string[] { "q1" });
+            new List<string> { "q1" });
 
 
 

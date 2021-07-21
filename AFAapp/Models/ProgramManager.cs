@@ -19,20 +19,25 @@ namespace AFAapp.Models
         }
 
 
-        public string statesToBool(string stringToEval, string[] final)
+        public string statesToBool(string stringToEval, List<string> final)
         {
 
             foreach (string s in Global.stringToArray(stringToEval))
             {
-                if (Array.Exists(final, element => element == s))
+                //if (Array.Exists(final, element => element == s))
+                if(final.Contains(s))
                 {
                     stringToEval = stringToEval.Replace(s, "true");
                 }
 
-                else if (!Array.Exists(Global.connectives, element => element == s) && !Global.booleans.Contains(s) && s != "(" && s != ")") // or using System.Linq and then Contains;
+                else if (!Global.connectives.Contains(s) && !Global.booleans.Contains(s) &&  s != "(" && s != ")")
                 {
                     stringToEval = stringToEval.Replace(s, "false");
                 }
+                //else if (!Array.Exists(Global.connectives, element => element == s) && !Global.booleans.Contains(s) && s != "(" && s != ")") // or using System.Linq and then Contains;
+                //{
+                //    stringToEval = stringToEval.Replace(s, "false");
+                //}
             }
             return stringToEval;
         }

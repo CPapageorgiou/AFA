@@ -1,4 +1,4 @@
-﻿@model AFAapp.Models.AFA
+﻿@model AFAapp.Models.InputModel
 
 
 @{
@@ -77,10 +77,10 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="Initial State" type="text">
+                            <input type="text" class="form-control" placeholder="Initial State" name="initialState">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="Final States" type="text">
+                            <input type="text" class="form-control" placeholder="Final States">
                         </div>
                     </div>
                 </div>
@@ -88,68 +88,98 @@
 
 
                 <div class="table-responsive search-table-outter">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="myTable">
                         <col class="bg-light"> </col>
 
                         <thead>
                             <tr class="bg-light">
                                 <th class=" text-center align-middle">Transition Function</th>
-                                <td class="text-center">
-                                    @*<div class="form-group">*@
-                                    <input class="form-control" placeholder="letter" type="text">
-                                    @*</div>*@
-                                </td>
+                                <th class="text-center">
+                                    @*<input class="form-control" placeholder="letter" type="text" name="letters[0]">*@
+                                    <input class="form-control" placeholder="letter" type="text" name="letters">
 
-                                <td class="align-middle">
-                                    @*<div class="form-group">*@
-                                    <input class="form-control" placeholder="letter" type="text">
-                                    @*</div>*@
-                                </td>
+                                </th>
+
+                                <th class="align-middle">
+                                    @*<input class="form-control" placeholder="letter" type="text" name="letters[1]">*@
+                                    <input class="form-control" placeholder="letter" type="text" name="letters">
+
+                                </th>
                             </tr>
                         </thead>
 
                         <tbody>
                             <tr>
                                 <td>
-                                    @*<div class="form-group">*@
-                                    <input class="form-control" placeholder="state" type="text">
-                                    @*</div>*@
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                @*<input type="checkbox" name="isFinal[0]" value="true">
+                <input type="hidden" name="isFinal[0]" value="false">*@
+                                                <input type="checkbox" name="isFinal" value="true">
+                                                <input type="hidden" name="isFinal" value="false">
+
+                                            </div>
+                                        </div>
+                                        @*<input class="form-control" id="simple input" placeholder="state" type="text" name="states[0]">*@
+                                        <input class="form-control" id="simple input" placeholder="state" type="text" name="states">
+
+                                    </div>
                                 </td>
                                 <td>
-                                    @*<div class="form-group">*@
-                                    <input class="form-control" placeholder="Key" type="text">
-                                    @*</div>*@
+                                    @*<input class="form-control" placeholder="Key" type="text" name="formulas[0]">*@
+                                    <input class="form-control" placeholder="Key" type="text" name="formulas">
+
                                 </td>
                                 <td>
-                                    @*<div class="form-group">*@
-                                    <input class="form-control" placeholder="Key" type="text">
-                                    @*</div>*@
+                                    @*<input class="form-control" placeholder="Key" type="text" name="formulas[1]">*@
+                                    <input class="form-control" placeholder="Key" type="text" name="formulas">
+
                                 </td>
+
                             </tr>
                             <tr>
                                 <td>
-                                    @*<div class="form-group">*@
-                                    <input class="form-control" placeholder="state" type="text">
-                                    @*</div>*@
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                @*<input type="checkbox" name="isFinal[1]" value="true">
+                                                <input type="hidden" name="isFinal[1]" value="false">*@
+                                                <input type="checkbox" name="isFinal" value="true">
+                                                <input type="hidden" name="isFinal" value="false">
+
+                                            </div>
+                                        </div>
+
+                                        @*<input class="form-control" placeholder="state" type="text" name="states[1]">*@
+                                        <input class="form-control" placeholder="state" type="text" name="states">
+
+                                    </div>
                                 </td>
                                 <td>
-                                    @*<div class="form-group">*@
-                                    <input class="form-control" placeholder="Key" type="text">
-                                    @*</div>*@
+                                    @*<input class="form-control" placeholder="Key" type="text" name="formulas[2]">*@
+                                    <input class="form-control" placeholder="Key" type="text" name="formulas">
+
                                 </td>
                                 <td>
-                                    @*<div class="form-group">*@
-                                    <input class="form-control" placeholder="Key" type="text">
-                                    @*</div>*@
+                                    @*<input class="form-control" placeholder="Key" type="text" name="formulas[3]">*@
+                                    <input class="form-control" placeholder="Key" type="text" name="formulas">
+
                                 </td>
+                                <TD>
+                                    <INPUT TYPE="Button" CLASS="Button" onClick="delRow()" VALUE="Delete Row" />
+                                </TD>
                             </tr>
+
                         </tbody>
                     </table>
                 </div>
 
+                <button type="button" onclick="add()">Try it</button>
+
                 <div class="form-group">
 
-                    <input class="form-control" placeholder="Input Word" type="text">
+                    <input class="form-control" placeholder="Input Word" type="text" name="inputWord">
 
                 </div>
 
@@ -174,7 +204,144 @@
         </div>
     </div>
 
+
+    @*var html = "<div CLASS=\"input-group mb-3\"> <div CLASS=\"input-group-prepend\"> <div CLASS=\"input-group-text\"> <input TYPE=\"checkbox\" name=\"isFinal[rowCount-1]\" VALUE=\"true\"> <input TYPE=\"hidden\" NAME=\"isFinal[rowCount-1]\" VALUE=\"false\"> </div> </div> <input CLASS=\"form-control\" PLACEHOLDER=\"state\" TYPE=\"text\" name=\"states[rowCount-1]\"> </div>"*@
+    @*var html = `<div CLASS="input-group mb-3"> <div CLASS="input-group-prepend"> <div CLASS="input-group-text"> <input TYPE="checkbox" name="isFinal[rowCount-1]" VALUE="true">  <input TYPE="hidden" NAME="isFinal[rowCount-1]" VALUE="false"> </div></div> <input CLASS="form-control" PLACEHOLDER="state" TYPE="text" name="states[${rowCount-1}]"> </div>`;*@
+    `
+
+
+    @*var html = "<input CLASS=\"form-control\" PLACEHOLDER=\"key\" TYPE=\"text\" name=\"formulas[formulasCount+extraCell]\">"*@
+    @*var html = `<input CLASS="form-control" PLACEHOLDER="key" TYPE="text" name="formulas[formulasCount+extraCell]">`*@
+
+<script>function add()
+    {
+
+    var colCount = $("#myTable tr th").length;
+    var rowCount = $("#myTable tr").length;
+    var formulasCount = (colCount - 1) * (rowCount - 1);
+    var extraCell = 0;
+        var table = document.getElementById("myTable");
+        var row = document.createElement("TR");
+
+
+        for (let i = 0; i < colCount; i++)
+        {
+            var td = document.createElement("TD");
+
+
+
+            if (i == 0)
+            {
+                @*var html = `<div CLASS="input-group mb-3"> <div CLASS="input-group-prepend"> <div CLASS="input-group-text"> <input TYPE="checkbox" name="isFinal[${rowCount-1}]" VALUE="true">  <input TYPE="hidden" NAME="isFinal[${rowCount-1}]" VALUE="false"> </div></div> <input CLASS="form-control" PLACEHOLDER="state" TYPE="text" name="states[${rowCount - 1}]"> </div>`;*@
+                var html = `<div CLASS="input-group mb-3"> <div CLASS="input-group-prepend"> <div CLASS="input-group-text"> <input TYPE="checkbox" name="isFinal" VALUE="true">  <input TYPE="hidden" NAME="isFinal" VALUE="false"> </div></div> <input CLASS="form-control" PLACEHOLDER="state" TYPE="text" name="states"> </div>`;
+
+            }
+
+            else
+            {
+                @*var html = `<input CLASS="form-control" PLACEHOLDER="key" TYPE="text" name="formulas[${formulasCount + extraCell}]">`;*@
+                var html = `<input CLASS="form-control" PLACEHOLDER="key" TYPE="text" name="formulas">`;
+
+                extraCell += 1;
+            }
+            td.innerHTML = html;
+
+
+            row.appendChild(td);
+         }
+    table.appendChild(row);
+    alert(formulasCount);
+}
+</script>
+
+
+
+    <script>function delRow() {
+            var current = window.event.srcElement;
+            while ((current = current.parentElement) && current.tagName != "TR");
+            current.parentElement.removeChild(current);
+        }</script>
+
+
+    <TABLE ID="tblPets" border="1" STYLE="border width:1 orange dashed; background color:#F0E68C;table-row width:2;">
+        <TR>
+            <TH>Id</TH>
+            <TH WIDTH="90">First Name</TH>
+            <TH WIDTH="120">Last Name</TH>
+
+            <TD ALIGN="center">
+                <INPUT TYPE="Button" onClick="addRow('tblPets')" VALUE="Add Row" />
+            </TD>
+        </TR>
+        <TR>
+            <TD>1</TD>
+            <TD>Scooby</TD>
+            <TD>Doo</TD>
+            <TD>
+                <INPUT TYPE="Button" CLASS="Button" onClick="delRow()" VALUE="Delete Row" />
+            </TD>
+        </TR>
+        <TR>
+            <TD>2</TD>
+            <TD>Cat</TD>
+            <TD>Tom</TD>
+            <TD>
+                <INPUT TYPE="Button" CLASS="Button" onClick="delRow()" VALUE="Delete Row" />
+            </TD>
+        </TR>
+        <TR>
+            <TD>3</TD>
+            <TD>Mouse</TD>
+            <TD>Jerry</TD>
+            <TD>
+                <INPUT TYPE="Button" CLASS="Button" onClick="delRow()" VALUE="Delete Row">
+            </TD>
+        </TR>
+    </TABLE>
+
+
+
+
 </body>
 
 
 
+
+
+
+            <!--function addRow(in_tbl_name) {
+     var tbody = document.getElementById(in_tbl_name).getElementsByTagName("TBODY")[0];-->
+@*create row*@
+
+     <!--var row = document.createElement("TR");
+
+     // create table cell 1
+     var td1 = document.createElement("TD")
+     var strHtml1 = "<FONT SIZE=\"+3\">*</FONT>";
+     td1.innerHTML = strHtml1.replace(/!count!/g, count);
+     // create table cell 2
+     var td2 = document.createElement("TD")
+     var strHtml2 =  "
+<INPUT TYPE=\"text\" NAME=\"in_name\" SIZE=\"30\" MAXLENGTH=\"30\" STYLE=\"height:24;border: 1 solid;margin:0;\">";
+     td2.innerHTML = strHtml2.replace(/!count!/g, count);
+     // create table cell 3
+     var td3 = document.createElement("TD")
+     var strHtml3 = "
+<INPUT TYPE=\"text\" NAME=\"in_name\" SIZE=\"30\" MAXLENGTH=\"30\" STYLE=\"height:24;border: 1 solid;margin:0;\">";
+     td3.innerHTML = strHtml3.replace(/!count!/g, count);
+     // create table cell 4
+     var td4 = document.createElement("TD")
+     var strHtml4 = "
+<INPUT TYPE=\"Button\" CLASS=\"Button\" onClick=\"delRow()\" VALUE=\"Delete Row\">";
+     td4.innerHTML = strHtml4.replace(/!count!/g, count);
+
+     // append data to row
+     row.appendChild(td1);
+     row.appendChild(td2);
+     row.appendChild(td3);
+     row.appendChild(td4);
+     // add to count variable
+     var count = parseInt(count) + 1;
+     // append row to table
+     tbody.appendChild(row);
+ }-->

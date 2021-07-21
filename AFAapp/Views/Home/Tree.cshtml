@@ -4,9 +4,22 @@
 <!DOCTYPE html>
 
 
+@{
+    if ((bool)ViewData["Accepted"])
+    {
+        <p> The word is accepted. </p>
+    }
+
+    else
+    {
+        <p> The word is not accepted. </p>
+    }
+}
 
 
 @{
+
+
     showTree2(new Tree(Model.letter, Model.state, Model.connectives, Model.children));
 }
 
