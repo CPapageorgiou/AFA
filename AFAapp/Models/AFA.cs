@@ -21,7 +21,36 @@ namespace AFAapp.Models
         public Dictionary<(string, char), string>.KeyCollection getKeys()
         {
             return transitionFunction.Keys;
+        }
 
+
+        public List<string> getStates()
+        {
+            var states = new List<string>();
+            var keys = this.getKeys();
+            foreach (var key in keys)
+            {
+                states.Add(key.Item1);
+            }
+            return states; 
+        }
+
+        public List<char> getLetters()
+        {
+            var letters = new List<char>();
+            var keys = this.getKeys();
+            foreach (var key in keys)
+            {
+                letters.Add(key.Item2);
+            }
+            return letters;
+        }
+
+
+
+        public bool initialIsValid()
+        {
+            return (this.getStates().Contains(initialState));
         }
     }
 }

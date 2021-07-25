@@ -13,7 +13,6 @@ namespace AFAapp.Models
         {
             var (s, d) = activateAut(inputWord, a);
             string finalString = d.lastString();
-
             string stringToEval = statesToBool(finalString, a.finalStates);
             return computeString(stringToEval);
         }
@@ -24,7 +23,6 @@ namespace AFAapp.Models
 
             foreach (string s in Global.stringToArray(stringToEval))
             {
-                //if (Array.Exists(final, element => element == s))
                 if(final.Contains(s))
                 {
                     stringToEval = stringToEval.Replace(s, "true");
@@ -34,10 +32,7 @@ namespace AFAapp.Models
                 {
                     stringToEval = stringToEval.Replace(s, "false");
                 }
-                //else if (!Array.Exists(Global.connectives, element => element == s) && !Global.booleans.Contains(s) && s != "(" && s != ")") // or using System.Linq and then Contains;
-                //{
-                //    stringToEval = stringToEval.Replace(s, "false");
-                //}
+     
             }
             return stringToEval;
         }
@@ -113,7 +108,6 @@ namespace AFAapp.Models
 
             return (subsList, d);
         }
-
 
 
         public List<(string, int)> generateConnectivesList(string[] strArr)

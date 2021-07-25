@@ -24,6 +24,13 @@ namespace AFAapp.Controllers
         }
 
         [HttpPost]
+        public IActionResult Index(Tree t)
+        {
+            return View(t);
+        }
+
+
+        [HttpPost]
         public IActionResult Tree1()
         {
             var p = new Models.ProgramManager();
@@ -55,9 +62,8 @@ namespace AFAapp.Controllers
             return transitionFun; 
         }
 
-        //string[] finalStates,
         [HttpPost]
-        public IActionResult Tree (string inputWord, string initialState, List<char> letters, List<string> states, List<string> formulas, List<bool> isFinal
+        public IActionResult Tree5 (string inputWord, string initialState, List<char> letters, List<string> states, List<string> formulas, List<bool> isFinal
             )
         {
             int count = 0;
@@ -80,16 +86,18 @@ namespace AFAapp.Controllers
                 }
             }
 
-            //string[] finalStates= { "q1" };
-
             AFA a = new AFA(initialState, transitionFun, finalStates);
-            var p = new Models.ProgramManager();
-            ViewData["Accepted"] = p.determineAcceptance(inputWord, a);
-            ViewData["final"] = finalStates[0];
-            var (s, d) = p.activateAut(inputWord, a);
-            var tree = p.generateTree(0, d, s);
-            tree.setConnectives();
-            return View(tree);            
+            if (a.initialIsValid())
+            {
+                var p = new Models.ProgramManager();
+                ViewData["Accepted"] = p.determineAcceptance(inputWord, a);
+                ViewData["inputWord"] = inputWord;
+                var (s, d) = p.activateAut(inputWord, a);
+                var tree = p.generateTree(0, d, s);
+                tree.setConnectives();
+            }
+            return View("Index",tree);
+            //return PartialView("Tree",tree);
         }
 
 

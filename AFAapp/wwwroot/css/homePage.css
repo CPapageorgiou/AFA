@@ -1,6 +1,6 @@
-﻿row-fluid .span6 {
+﻿/*row-fluid .span6 {
     width: 48.61878453038674%;
-}
+}*/
 
 
 
@@ -11,7 +11,7 @@
         float: left;
         width: 100%;
         min-height: 30px;
-        margin-left: 2.7624309392265194%;
+/*        margin-left: 2.7624309392265194%;*/
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
@@ -20,15 +20,18 @@
 
 @media {
     .row-fluid .span6 {
-        width: 48.61878453038674%;
+        width: 50%;
+        margin-left: 0;
     }
 }
 
 @media  {
     .row-fluid [class*="span"]:first-child {
         margin-left: 0;
+        /*        margin-right: 10px*/
     }
 }
+
 
 
 @media {
@@ -37,23 +40,59 @@
     }
 }
 
-/*    *, ::after, ::before {
-        box-sizing: border-box;
-    }*/
-
 
 
 h3 {
     text-align: center;
+    margin-top: 8%;
 }
 
 
+.table thead th {
+    vertical-align: middle;
+    border-bottom: 2px solid #dee2e6;
+}
 
+td.empty {
+    border-style: solid;
+    border-width: 0px;
+    border-color: blue;
+}
+
+
+.table td, .table th {
+    padding: .75rem;
+    vertical-align: middle;
+    border-top: 1px solid #dee2e6;
+    min-width: 145px;
+}
+
+    .table.cl td {
+        padding: .75rem;
+        vertical-align: middle;
+        border-top: 1px solid #dee2e6;
+    } 
+
+.mb-3, .my-3 {
+    margin-bottom: 0 !important;
+}
+
+.close {
+/*    float: left;*/
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+    float: none;
+}
 
 
 html {
     position: relative;
     min-height: 100%;
+
 }
 
 body {
@@ -61,56 +100,6 @@ body {
     margin-bottom: 60px;
 }
 
-/*.footer {
-    position: absolute;
-    margin-bottom: 0;
-    width: 100%;
-    white-space: nowrap;
-    line-height: 60px;
-    height: 60px;
-}
-*/
-
 .span6{margin-bottom: 80px}
 
-/*.table {margin-bottom: 100px}*/
 
-/*.footer{margin-top: 1px}*/
-
-/*.span6 {
-    width: 570px
-}
-.row-fluid .span6 {
-    width: 48.717948717948715%;
-    * width: 48.664757228587014%
-}
-
-input.span6, textarea.span6, .uneditable-input.span6 {
-    width: 556px
-}
-
-.span6 {
-    width: 352px
-}
-
-.row-fluid .span6 {
-    width: 48.61878453038674%;
-    * width: 48.56559304102504%
-}
-
-input.span6, textarea.span6, .uneditable-input.span6 {
-    width: 338px
-}
-
-.span6 {
-    width: 460px
-}
-
-.row-fluid .span6 {
-    width: 48.93617021276595%;
-    * width: 48.88297872340425%
-}
-
-input.span6, textarea.span6, .uneditable-input.span6 {
-    width: 446px
-}*/

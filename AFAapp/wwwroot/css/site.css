@@ -24,6 +24,19 @@ a {
   border-color: #1861ac;
 }
 
+.list {
+    text-align:center;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+.right-col-p {
+    margin-left: 8%;
+}
+
+
 /* Sticky footer styles
 -------------------------------------------------- */
 /*html {
