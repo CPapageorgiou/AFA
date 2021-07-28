@@ -23,44 +23,6 @@ namespace AFAapp.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Index(Tree t)
-        {
-            return View(t);
-        }
-
-
-        [HttpPost]
-        public IActionResult Tree1()
-        {
-            var p = new Models.ProgramManager();
-
-            var (s, d) = p.activateAut("bba", Global.a1);
-            var tree = p.generateTree(0, d, s);
-            tree.setConnectives();
-            return View(tree);
-
-        }
-
-
-        [HttpPost]
-        public IActionResult Tree2(AFA a)
-        {
-            var p = new Models.ProgramManager();
-
-            var (s, d) = p.activateAut("bba", a);
-            var tree = p.generateTree(0, d, s);
-            tree.setConnectives();
-            return View(tree);
-
-        }
-
-        //Dictionary<(string, char), string>
-        [HttpPost]
-        public Dictionary<string, string> Blah (Dictionary<string,string> transitionFun)
-        {
-            return transitionFun; 
-        }
 
         [HttpPost]
         public IActionResult Tree5 (string inputWord, string initialState, List<char> letters, List<string> states, List<string> formulas, List<bool> isFinal
@@ -87,17 +49,48 @@ namespace AFAapp.Controllers
             }
 
             AFA a = new AFA(initialState, transitionFun, finalStates);
+            var p = new Models.ProgramManager(inputWord, a);
+
             if (a.initialIsValid())
             {
-                var p = new Models.ProgramManager();
-                ViewData["Accepted"] = p.determineAcceptance(inputWord, a);
-                ViewData["inputWord"] = inputWord;
-                var (s, d) = p.activateAut(inputWord, a);
-                var tree = p.generateTree(0, d, s);
-                tree.setConnectives();
+                if (p.inputWordIsValid())
+                {
+
+                    try
+                    {
+                        ViewData["Accepted"] = p.determineAcceptance();
+                        ViewData["inputWord"] = inputWord;
+                        var (s, d) = p.activateAut();
+                        var tree = p.generateTree(0, d, s);
+                        tree.setConnectives();
+                        //return View("Index", tree);
+                        return PartialView("Tree", tree);
+                    }
+
+                    catch
+                    {
+                        ViewData["Error"] = "Your Input is invalid. Please check again.";
+                        //return View("Index");
+                        return PartialView("Tree");
+                    }
+                }
+
+                else
+                {
+                    ViewData["Error"] = "Your Input is invalid. The input word must contain only letters from the alphabet.";
+                    //return View("Index");
+                    return PartialView("Tree");
+
+                }
             }
-            return View("Index",tree);
-            //return PartialView("Tree",tree);
+
+            else
+            {
+                ViewData["Error"] = "Your Input is invalid. The initial state must be contained in the transition function.";
+                //return View("Index");
+                return PartialView("Tree");
+
+            }
         }
 
 

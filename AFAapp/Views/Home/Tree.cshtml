@@ -22,9 +22,18 @@
                 <p class="right-col-p"> The word <strong> "@ViewData["inputWord"]" </strong> is <strong>not</strong> accepted. </p>
             }
         }
-        catch { }
 
+        catch
+        {
+            if (ViewData.Keys.Contains("Error"))
+            {
+                <p class="text-danger right-col-p">  @ViewData["Error"] </p>
+            }
+
+        }
     }
+
+
 
     @functions
 {
@@ -32,9 +41,9 @@
         public void showTree(Tree t)
         {
             @*padding - left:inherit;*@
-@*style = "display:flex; justify-content: center"*@
-@*text - align:left*@
-            <div >
+            @*style = "display:flex; justify-content: center"*@
+            @*text - align:left*@
+            <div>
                 <ul style="list-style-position: inside;">
                     <li>
                         <b>@t.state</b>
@@ -62,4 +71,5 @@
 
         }
     }
+
 </body>

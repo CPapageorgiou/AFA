@@ -9,9 +9,25 @@ namespace AFAapp.Models
 
     public class ProgramManager
     {
-        public bool determineAcceptance(string inputWord, AFA a)
+        public string inputWord { get; set; }
+        public AFA a { get; set; }
+
+        public ProgramManager(string inputWord, AFA a)
         {
-            var (s, d) = activateAut(inputWord, a);
+            this.inputWord = inputWord;
+            this.a = a;
+        }
+
+        public bool inputWordIsValid()
+        {
+            List<char> letters = a.getLetters();
+            return (inputWord.All(c => letters.Contains(c)));
+        }
+
+
+        public bool determineAcceptance()
+        {
+            var (s, d) = activateAut();
             string finalString = d.lastString();
             string stringToEval = statesToBool(finalString, a.finalStates);
             return computeString(stringToEval);
@@ -46,7 +62,7 @@ namespace AFAapp.Models
         }
 
 
-        public (List<(int level, char letter, (string state, string substitution))>, Derivation) activateAut(string inputWord, AFA a)
+        public (List<(int level, char letter, (string state, string substitution))>, Derivation) activateAut()
         {
             int count = 0;
             Derivation d = new Derivation(a.initialState, inputWord[0]);
