@@ -61,7 +61,7 @@ namespace AFAapp.Controllers
                         ViewData["Accepted"] = p.determineAcceptance();
                         ViewData["inputWord"] = inputWord;
                         var (s, d) = p.activateAut();
-                        var tree = p.generateTree(0, d, s);
+                        var tree = p.generateTree(0, d, s, initialState);
                         tree.setConnectives();
                         //return View("Index", tree);
                         return PartialView("Tree", tree);

@@ -150,6 +150,7 @@ namespace AFAapp.Models
                     y = new List<(string, int)>(treeLevels[j].Item1.connectives);
                     y.RemoveAll(r => r.Item2 != j);
                     treeLevels[j].Item1.connectives = new List<(string, int)>(y);
+                    
                 }
             }
 

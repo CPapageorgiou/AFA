@@ -39,16 +39,16 @@ namespace AFAapp.Models
 
             foreach (string s in Global.stringToArray(stringToEval))
             {
-                if(final.Contains(s))
+                if (final.Contains(s))
                 {
                     stringToEval = stringToEval.Replace(s, "true");
                 }
 
-                else if (!Global.connectives.Contains(s) && !Global.booleans.Contains(s) &&  s != "(" && s != ")")
+                else if (!Global.connectives.Contains(s) && !Global.booleans.Contains(s) && s != "(" && s != ")")
                 {
                     stringToEval = stringToEval.Replace(s, "false");
                 }
-     
+
             }
             return stringToEval;
         }
@@ -125,35 +125,73 @@ namespace AFAapp.Models
             return (subsList, d);
         }
 
-
         public List<(string, int)> generateConnectivesList(string[] strArr)
         {
 
             var connectivesList = new List<(string, int)>();
-            int conInt = -1;
+            int conInt2 = -1;
 
-            var strArrNoPar = strArr.Where(x => x != "(" && x != ")");
-
-            for (int i = 0; i < strArrNoPar.Count(); i++)
+            for (int j = 0; j < strArr.Count(); j++)
             {
-                if (Global.connectives.Contains(strArrNoPar.ElementAt(i)))
-                {
+                string element = strArr.ElementAt(j);
 
-                    if (!Global.connectives.Contains(strArrNoPar.ElementAt(i - 1)))
+
+                if (Global.connectivesExceptNot.Contains(element))
+                {
+                    if (j == 0 || !Global.connectives.Contains(findNearestNotPar(strArr, j - 1)))
                     {
-                        conInt += 1;
+                        conInt2 += 1;
+                    }
+                    connectivesList.Add((element, conInt2));
+                }
+
+                else if (element == "not")
+                {
+                    if (strArr.ElementAt(j - 1) == "(")
+                    {
+                        conInt2 += 1;
                     }
 
-                    connectivesList.Add((strArrNoPar.ElementAt(i), conInt));
+                    connectivesList.Add((strArr.ElementAt(j), conInt2));
                 }
             }
-
             return connectivesList;
         }
 
 
+        public string findNearestNotPar(string[] arr, int ind)
+        {
+            string s = "";
+            for (int i = ind; i >= 0; i--)
+            {
+                if (arr[ind] != "(" && arr[ind] != ")")
+                {
+                    s = arr[ind];
+                    break;
+                }
+            }
+            return s;
+        }
 
-        public Tree generateTree(int level, Derivation d, List<(int level, char letter, (string state, string substitution))> subsList)
+
+
+        public int numberOfStates(string s)
+        {
+            int numberOfStates = 0;
+            var arr = Global.stringToArray(s);
+            foreach (var item in arr)
+            {
+                if (!Global.connectives.Contains(item))
+                {
+                    numberOfStates += 1;
+                }
+            }
+
+            return numberOfStates;
+        }
+
+
+        public Tree generateTree(int level, Derivation d, List<(int level, char letter, (string state, string substitution))> subsList, string s)
         {
             Tree tree = new Tree();
 
@@ -164,22 +202,15 @@ namespace AFAapp.Models
                 tree.state = firstStep.Item1;
             }
 
-            int count = 0;
-
             var step = d.getStep(level);
 
-            int n = 0;
-
-
             var strArr = Global.stringToArray(step.Item1);
-
 
             var connectivesList = generateConnectivesList(strArr);
 
             foreach (var con in connectivesList)
             {
                 tree.addConnective(con.Item1, con.Item2);
-
             }
 
             var strArrNoPar = strArr.Where(x => x != "(" && x != ")");
@@ -188,42 +219,29 @@ namespace AFAapp.Models
             foreach (var j in strArrNoPar)
             {
 
-                if (level != 1 && n > 1)
-                {
-                    break;
-                }
-
-
                 if (!Global.connectives.Contains(j))
                 {
 
                     foreach (var i in subsList)
                     {
 
-                        if (step.Item2 == i.Item2 && j == i.Item3.Item1)
+                        if (step.Item2 == i.Item2 && j == i.Item3.Item1 && Global.stringToArray(s).Contains(j))
                         {
-
-                            n += 1;
-
-                            level = i.Item1;
-
                             char m = d.getStep(level + 1).Item2;
 
-                            subsList.Remove(i);
-
-
-                            if (level + 2 == d.length())
+                            if (numberOfStates(s) > tree.children.Count)
                             {
-                                //z += 1;
-                                tree.addChild(new Tree(m, i.Item3.Item2, tree.connectives));
-                            }
+                                subsList.Remove(i);
+                                if (level + 2 == d.length())
+                                {
+                                    tree.addChild(new Tree(m, i.Item3.Item2, tree.connectives));
+                                }
 
-                            else
-                            {
-                                tree.addChild(new Tree(m, i.Item3.Item2, tree.connectives, new List<Tree> { generateTree(level + 1, d, subsList) }));
+                                else
+                                {
+                                    tree.addChild(new Tree(m, i.Item3.Item2, tree.connectives, new List<Tree> { generateTree(level + 1, d, subsList, i.Item3.Item2) }));
+                                }
                             }
-
-                            count += 1;
                             break;
                         }
                     }

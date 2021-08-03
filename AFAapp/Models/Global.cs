@@ -22,10 +22,11 @@ namespace AFAapp.Models
             new List<string> { "q1" });
 
 
-
         public static string[] booleans = { "0", "1", "true", "false", "True", "TRUE", "False", "FALSE" };
 
         public static string[] connectives = { "and", "not", "or" };
+
+        public static string[] connectivesExceptNot = { "and", "or" };
 
 
         public static string[] stringToArray(string s)
