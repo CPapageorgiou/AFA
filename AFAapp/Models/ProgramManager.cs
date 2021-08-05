@@ -125,12 +125,42 @@ namespace AFAapp.Models
             return (subsList, d);
         }
 
+
+
+        public List<(string, int)> generateConnectivesList2(string[] strArr)
+        {
+
+            var connectivesList = new List<(string, int)>();
+            int conInt = -1;
+
+            var strArrNoPar = strArr.Where(x => x != "(" && x != ")");
+
+            for (int i = 0; i < strArrNoPar.Count(); i++)
+            {
+                if (Global.connectives.Contains(strArrNoPar.ElementAt(i)))
+                {
+
+                    if (i == 0 || !Global.connectives.Contains(strArrNoPar.ElementAt(i - 1)))
+                    {
+                        conInt += 1;
+                    }
+
+                    connectivesList.Add((strArrNoPar.ElementAt(i), conInt));
+                }
+            }
+
+            return connectivesList;
+        }
+
+
+
         public List<(string, int)> generateConnectivesList(string[] strArr)
         {
 
             var connectivesList = new List<(string, int)>();
             int conInt2 = -1;
-
+            //Global.Print(strArr);
+            //Console.WriteLine("-----------------------");
             for (int j = 0; j < strArr.Count(); j++)
             {
                 string element = strArr.ElementAt(j);
@@ -138,6 +168,7 @@ namespace AFAapp.Models
 
                 if (Global.connectivesExceptNot.Contains(element))
                 {
+
                     if (j == 0 || !Global.connectives.Contains(findNearestNotPar(strArr, j - 1)))
                     {
                         conInt2 += 1;
@@ -149,12 +180,16 @@ namespace AFAapp.Models
                 {
                     if (strArr.ElementAt(j - 1) == "(")
                     {
-                        conInt2 += 1;
+                        connectivesList.Add((strArr.ElementAt(j), conInt2 + 1));
                     }
 
-                    connectivesList.Add((strArr.ElementAt(j), conInt2));
+                    else
+                    {
+                        connectivesList.Add((strArr.ElementAt(j), conInt2));
+                    }
                 }
             }
+            
             return connectivesList;
         }
 
@@ -162,15 +197,24 @@ namespace AFAapp.Models
         public string findNearestNotPar(string[] arr, int ind)
         {
             string s = "";
-            for (int i = ind; i >= 0; i--)
+
+            try
             {
-                if (arr[ind] != "(" && arr[ind] != ")")
+                for (int i = ind; i >= 0; i--)
                 {
-                    s = arr[ind];
-                    break;
+                    if (arr[i] != "(" && arr[i] != ")")
+                    {
+                        s = arr[i];
+                        break;
+                    }
                 }
+                return s;
             }
-            return s;
+            catch
+            {
+                Console.WriteLine("error");
+                return "abc";
+            }
         }
 
 

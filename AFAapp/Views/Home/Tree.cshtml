@@ -85,23 +85,41 @@
                     {
 
 
+
                         int notCount = 0;
 
 
                         @if (t.children[i].connectives != null && t.children[i].connectives.Any() && t.children[i].connectives[0].Item1 == "not")
                         {
+                            var stateArr = Global.stringToArrayNoPar(t.state);
 
-                            while (t.children[i].connectives.Count > notCount)
+                            if (stateArr[0] == "not")
                             {
+                                int height = t.height();
+                                @*while (t.children[i].connectives.Count > notCount && t.children[i].connectives[notCount].Item1 == "not")
+                                {*@
 
-                                if (t.children[i].connectives[notCount].Item1 == "not")
-                                {
+                                    @*if (t.children[i].connectives[notCount].Item1 == "not")
+                                        {*@
                                     <li>
                                         <span>not</span>
-                                    </li>
-                                }
 
-                                notCount += 1;
+                                        @for (int w = 0; w < height-1; w++)
+                                        {   <br>
+                                            <ul>
+                                                <li>
+                                                    <span>not</span>
+                                                </li>
+                                            </ul>
+                                        }
+
+
+                                    </li>
+                                    @*}*@
+
+                                    notCount += 1;
+
+                                @*}*@
                             }
                         }
 
@@ -114,6 +132,9 @@
                             {
                                 <b>(@t.children[i].letter)</b>
                             }
+
+
+
 
 
                             @for (int j = 0; j < 1; j++)
@@ -129,50 +150,138 @@
                             if (i != (t.children.Count - 1))
                             {
                                 var conList = new List<string>();
+                                bool b = false;
                                 <li>
                                     <span>
                                         @foreach (var con in t.children[i].connectives)
                                         {
-                                            conList.Add(con.Item1);
-                                            <span> @con.Item1</span>
+                                            if (con.Item1 != "not")
+                                            {
+                                                b = true;
+                                            }
+
+                                            if (b)
+                                            {
+                                                conList.Add(con.Item1);
+                                                <span> @con.Item1</span>
+                                            }
                                         }
 
                                     </span>
 
 
+                                    @*connectives tou telefteou child t.children[i]*@
 
-                                    @{var hasNextLevel = false;}
-                                    @foreach (var child in t.children)
-                                    {
-                                        if (child.children != null && child.children.Any())
-                                        {
-                                            hasNextLevel = true;
-                                        }
+                                    @{
+
+                                        @*if (t.children[i].children != null && t.children[i].children.Any())
+                                            {
+                                                int c = t.children[i].children.Count;
+
+                                                if (t.children[i].children[c - 1].connectives != null && t.children[i].children[c - 1].connectives.Any())
+                                                {
+                                                    var cons = t.children[i].children[c - 1].connectives;
+                                                    <br>
+                                                    <ul>
+                                                        <li>
+                                                            <span>
+                                                                @foreach (var k in cons)
+                                                                {
+                                                                    <span> @k.Item1</span>;
+                                                                }
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                }
+                                            }*@
                                     }
 
+                                    @*@{var hasNextLevel = false;}
+                                        @foreach (var child in t.children)
+                                        {
+                                            if (child.children != null && child.children.Any())
+                                            {
+                                                hasNextLevel = true;
+                                            }
+                                        }*@
 
-                                    @if (hasNextLevel)
-                                    {
+                                    @*@{var hasNextLevel = true;}
 
-                                        <br>
-                                        <ul>
-                                            <li>
+                                        @while (hasNextLevel)
+                                        {
 
-                                                <span>
-                                                    @foreach (var l in conList)
-                                                    {
-                                                        <span> @l </span>
-                                                    }
-                                                </span>
-                                            </li>
+                                            foreach (var child in t.children)
+                                            {
+                                                if (child.children == null || !child.children.Any())
+                                                {
+                                                    hasNextLevel = false;
+                                                }
+                                            }
 
-                                        </ul>
+                                            if (hasNextLevel)
+                                            {
+                                                <br>
+                                                <ul>
+                                                    <li>
+
+                                                        <span>
+                                                            @foreach (var l in conList)
+                                                            {
+                                                                <span> @l </span>
+                                                            }
+                                                        </span>
+                                                    </li>
+
+                                                </ul>
+                                            }
+                                        }*@
+
+
+                                    @{ int h = t.height();
+                                        for (int r = 0; r < h - 1; r++)
+                                        {
+                                            <br>
+                                            <ul>
+                                                <li>
+
+                                                    <span>
+                                                        @foreach (var l in conList)
+                                                        {
+                                                            <span> @l </span>
+                                                        }
+                                                    </span>
+                                                </li>
+
+                                            </ul>
+                                        }
                                     }
                                 </li>
                             }
 
-                        }
 
+
+                            @*else
+                                {
+                                    <li>
+                                        <ul>
+                                            <li>
+                                                <span>
+                                                    @foreach (var con in t.children[i].connectives)
+                                                    {
+                                                        <span> @con.Item1</span>
+                                                    }
+
+                                                </span>
+
+                                            </li>
+                                        </ul>
+                                    </li>
+
+
+                                }*@
+
+
+                        }
                     }
                 </ul>
             }
@@ -196,7 +305,8 @@
                         {
                             <b>(@t.letter)</b>;
                         }
-                        @{
+                        @{ int height = t.height();
+
                             show(t);
                         }
                     </li>
