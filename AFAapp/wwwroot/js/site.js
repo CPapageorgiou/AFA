@@ -59,6 +59,32 @@ $(function () {
         formulas.eq(3).val("not q0");
         checkBoxes.eq(1).prop('checked', true);
 
+
+
+
+
+        //$("#initialState").val("s");
+        //$("#inputWord").val("ab");
+
+        //var letters = $("input[name='letters']");
+        //var states = $("input[name='states']");
+        //var formulas = $("input[name='formulas']");
+        //var checkBoxes = $("input[type = 'checkbox']");
+
+        //letters.eq(0).val("a");
+        //letters.eq(1).val("b");
+        //states.eq(0).val("s");
+        //states.eq(1).val("q");
+        //formulas.eq(0).val("q");
+        //formulas.eq(1).val("false");
+        //formulas.eq(2).val("false");
+        //formulas.eq(3).val("p or s");
+        //formulas.eq(4).val("s");
+        //formulas.eq(5).val("false");
+
+
+        //checkBoxes.eq(0).prop('checked', true);
+
     })
 })
 

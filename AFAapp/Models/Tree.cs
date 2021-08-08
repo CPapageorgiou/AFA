@@ -26,6 +26,15 @@ namespace AFAapp.Models
             this.letter = '\0';
         }
 
+        public Tree(string state)
+        {
+            this.children = new List<Tree> { };
+            this.connectives = new List<(string, int)>();
+            this.state = this.state = state;
+            this.letter = '\0';
+        }
+
+
         // No children
         public Tree(char letter, string state, List<(string, int)> connectives)
         {
@@ -150,7 +159,7 @@ namespace AFAapp.Models
                     y = new List<(string, int)>(treeLevels[j].Item1.connectives);
                     y.RemoveAll(r => r.Item2 != j);
                     treeLevels[j].Item1.connectives = new List<(string, int)>(y);
-                    
+
                 }
             }
 

@@ -8,23 +8,56 @@
 <head>
     <link rel="stylesheet" href="~/css/homePage.css" />
 
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+
+
     <title>Alternating Finite Automata</title>
 
 </head>
 
 <body>
     @*mb-5 bg-warning*@
-    <div class="row-fluid">
-        <div class="span6 column">
+    <div class="row-fluid" >
+        <div class="span6 column" style="padding-right: 1%">
             <h3> Input AFA </h3>
 
-            <div class="instructions">
+            @*<div class="instructions">*@
                 <p align="justify">
                     Enter an AFA and an input word below or click <strong>Generate example AFA</strong> to have the app generate an example for you.
                     Next, click <strong>Run</strong> to display the computation. For detailed instructions on how to use the application see ref. For the relevant background on alternating finite automata please visit ref.
+                    Please follow the instructions below.
+                                <ul>
+                                    <li>
+                                        All fields must be filled before submitting the form. Use the dedicated buttons to add states/letters and the "x" buttons to remove states/letters. 
+                                    </li>
+                                    <li>
+                                        Use a single character for each letter.
+                                    </li>
+                                    <li>
+                                        The initial state must be a single state, not a formula.
+                                    </li>
+                                    <li>
+                                        Use the keywords "and", "or", "not" for logical conjuction, disjuction and negation respectively.
+                                    </li>
+                                    <li>
+                                        The different components of a formula must be separated with a single space character. For example, "q0 and not q1" rather than "q0andnotq1". 
+                                    </li>
+                                    <li>
+                                        Check the box next to a state to indicate that it is a final state.
+                                    </li>
+                                    @*<li>
+                                        If you would like to use subscripts for the states and appear as such, enclose them in dollar signs ($) and use underscore (_). For example, instead of "q0 and not q1" enter "\$q_0\$ and not \$q_1\$".
+                                    </li>*@
+                                </ul>
                 </p>
 
-            </div>
+            @*</div>*@
 
             <br/>
             <p>
@@ -80,7 +113,7 @@
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">
-                                                <input type="checkbox" id="checkBox1" name="isFinal">
+                                                <input type="checkbox" id="checkBox1" name="isFinal" value="true">
                                                 <input type="hidden" name="isFinal" value="false">
 
                                             </div>
@@ -144,19 +177,25 @@
                 </div>
             </form>
         </div>
-    @*</div>*@
+    </div>
 
 
 
-    @*<div class="row-fluid">*@
-        <div class="span6 column">
+    <div class="row-fluid">
+        
+        <div class="span6 column" style="padding-left: 1%">
             <h3> Computation </h3>
-            <div id="computationArea">
+            <p align="justify">
+                This is the output section of the application. In the computation tree, the root is the initial state and each
+                "row"  is a step in the computation.  In each node, the letter consumed by the automaton appers in parenthesis and the bolded parts
+                denote the newly activated states in each step. The unbolded parts are the connectives preserved from previous steps.
+            </p>
+            <div class="d-flex flex-column justify-content-center" id="computationArea">
 
             </div>
             @*<partial name="Tree.cshtml" />*@
         </div>
-    </div>
+        </div>
 
 
 </body>

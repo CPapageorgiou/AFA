@@ -53,12 +53,20 @@ namespace AFAapp.Controllers
 
             if (a.initialIsValid())
             {
+                if (p.inputWord == "empty")
+                {
+                    ViewData["Accepted"] = finalStates.Contains(initialState);
+                    ViewData["stringToEval"] = finalStates.Contains(initialState);
+                    return PartialView("Tree", new Tree(initialState));
+
+                }
                 if (p.inputWordIsValid())
                 {
 
                     try
                     {
-                        ViewData["Accepted"] = p.determineAcceptance();
+                        ViewData["stringToEval"] = p.determineAcceptance().Item1;
+                        ViewData["Accepted"] = p.determineAcceptance().Item2;
                         ViewData["inputWord"] = inputWord;
                         var (s, d) = p.activateAut();
                         var tree = p.generateTree(0, d, s, initialState);
@@ -69,7 +77,7 @@ namespace AFAapp.Controllers
 
                     catch
                     {
-                        ViewData["Error"] = "Your Input is invalid. Please check again.";
+                        ViewData["Error"] = "Your Input is invalid, please check again. Make sure you have followed the instructions.";
                         //return View("Index");
                         return PartialView("Tree");
                     }
@@ -99,7 +107,18 @@ namespace AFAapp.Controllers
             return View();
         }
 
+
+        public IActionResult Tutorial()
+        {
+            return View();
+        }
+
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+
+
+
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

@@ -1,5 +1,255 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
+
+<head>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+</head>
+
+<body>
+
+    <div>
+        <h3> Alternating Finite Automata - Short Tutorial</h3>
+    </div>
+
+    <div>
+        <p>
+            An Alternating finite automaton consists of the following components:
+            <ul>
+                <li>
+                    <strong>$Q$</strong> -  the (ﬁnite) set of states,
+                </li>
+                <li>
+                    <strong>$Σ$</strong> - the input alphabet,
+                </li>
+                <li>
+                    <strong>$s$</strong> - the initial state,
+                </li>
+                <li>
+                    <strong>$F$</strong> - the set of ﬁnal states,
+                </li>
+                <li>
+                    <strong>$g$</strong> - the transition function.
+                </li>
+            </ul>
+
+            Alternating finite automata extend nondeterministic finite automata by allowing their transition function to include any boolean expression. An alternating finite automaton works in the following way: when the automaton reads an input symbol $a$ in
+            a given state $q$, it will activate all states of the automaton for which there exists a transition from $q$ with label
+            $a$, to work on the remaining part of the input in parallel. Once the states have completed their tasks, $q$ will compute
+            its value by applying a Boolean function on those results and pass on the resulting value to the state by which it was activated.
+            A word $w$ is accepted if the starting state computes the value of 1. Otherwise, it is rejected.
+
+        </p>
+    </div>
+
+    <div>
+        <h4 style="margin-bottom: 2%"> Example </h4>
+    </div>
+
+    <p>
+        Let $A = (Q, \Sigma, F, s ,g )$ be an AFA with $Q=\{q_{0},q_{1}\},\: \Sigma = \{a,b\},\: s = q_{0},\: F = q_{1}$ and $g$ given by:
+    </p>
+    @*<div class="flex" style="margin:auto">*@
+    <table class="table table-bordered" style="width: auto; margin-left: auto; margin-right: auto; margin-bottom: 3%; margin-top: 2% ">
+        <tbody>
+            <tr>
+                <th>States/Letters</th>
+                <td>$a$</td>
+                <td>$b$</td>
+            </tr>
+            <tr>
+                <td>$q_0$</td>
+                <td>$q_1$</td>
+                <td> $q_{0} \land \overline{q_{1}}$</td>
+
+            </tr>
+
+            <tr>
+                <td>$q_1$</td>
+                <td>$q_0$</td>
+                <td>$\overline{q_{0}}$</td>
+            </tr>
+        </tbody>
+    </table>
+    @*</div>*@
+    <p>
+        If we take $w = bba$ as the input word, then the computation is as follows:
+
+        \[ q_{0} \xrightarrow{b} (q_{0} \land \overline{q_{1}}) \xrightarrow{b} (q_{0} \land \overline{q_{1}}) \land \overline{\overline{q_{0}}} \xrightarrow{a} (q_{1} \land \overline{q_{0}}) \land \overline{\overline{q_{1}}} \]
+
+    </p>
+
+    <p>The computation above can also be represented in the form of a tree as shown below: </p>
+
+    @*<div style="text-align: center;">
+
+            <img src="/ExampleTree.png" alt="ExampleTree" width="350" height="250">
+
+        </div>*@
+    <div class="tree-diagram" style="margin-bottom: 2%">
+
+        <ul>
+            <li class="root">
+                <b>q0</b>
+
+                <b>(b)</b>                <ul>
+
+                    <li>
+                        <span>
+                            <b>q0 and not q1</b>
+                        </span>
+
+                        <b>(b)</b>
+                        <ul>
+
+                            <li>
+                                <span>
+                                    <b>q0 and not q1</b>
+                                </span>
+
+                                <b>(a)</b>
+                                <ul>
+                                    <li>
+                                        <span>
+                                            <b>q1</b>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <span> and</span>
+                                            <span> not</span>
+
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <b>q0</b>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <span>
+                                    <span> and</span>
+                                    <span> not</span>
+
+                                </span>
+                                <br>
+                                <ul>
+                                    <li>
+
+                                        <span>
+                                            <span> and </span>
+                                            <span> not </span>
+                                        </span>
+                                    </li>
+
+                                </ul>
+                            </li>
+                            <li>
+                                <span>
+                                    <b>not q0</b>
+                                </span>
+
+                                <b>(a)</b>
+                                <ul>
+
+                                    <li>
+                                        <span>not</span>
+
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <b>q1</b>
+                                        </span>
+
+                                    </li>
+                                </ul>
+
+
+                            </li>
+                        </ul>
+
+
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <p>
+        Then, after assigning 1 to final states (i.e $q_{1}$) and 0 to non-final states, the final formula above evaluates to 1 which shows that $w$ is accepted by the AFA $A$.
+    </p>
+
+    <h3> Formal Desctiption</h3>
+    <p>The complete formal, mathematical description of an AFA is provided below.</p>
+    <h5> Definition 1</h5>
+    <p>
+        Throughout let $B = \big \{\{0,1\},\land,\vee, \neg,0,1 \big\}$, the two-element Boolean algebra. By $B^{Q}$ we denote the set of finite functions from $Q$ to $B$. We treat an element of $B^{Q}$ as a vector with entries from $B$, indexed by elements from $Q$. Note that the length of the vector is $|Q|$ (i.e an element of $B^{Q}$ was defined as a function with domain $Q$).
+    </p>    An alternating finite automaton is a quintuple $(Q,\Sigma,s,F,g)$ where:
+    <ul>
+        <li> $Q$ is a finite set of states,</li>
+        <li> $\Sigma$ is the input alphabet,</li>
+        <li> $s$ is the initial state, </li>
+        <li> $F$ is the set of final states,</li>
+        <li> $g$ is a function of $Q$ into the set of all functions $\Sigma \times B^{Q} \rightarrow B$.</li>
+    </ul>
+    <p>
+        For convenience, we will use $g_{q}$ instead of g(q) to denote the function $\Sigma \times B^{Q} \rightarrow B$ for each $q \in Q$. It is evident that for any $q \in Q$, $u \in B^{Q}$ we have that $g_{q} (a,u) \in \{0,1\}$.
+    </p>
+
+    <h5> Definition 2</h5>
+    Let $Q = \{q_{1},q_{2}, \dots , q_{n} \}$ for some $n > 0$ be the set of finite sets of an AFA. We define \[ g_{Q}:\Sigma \times B^{Q} \rightarrow B^{Q}\]
+    by \[ g_{Q}(a,u) = \big(g_{q_{1}}(a,u), \dots , g_{q_{n}}(a,u) \big)\]
+
+
+    <h5> Definition 3</h5>
+    <p>
+        Let $Q = \{q_{1},q_{2}, \dots , q_{n} \}$ for some $n > $0 be the set of finite states of an AFA and $F$ the set of final states. We define the characteristic vector $f \in B^{Q}$   of $F$ by
+        \[
+        f_{q_{i}} =
+        \begin{cases}
+        1 & \text{if } q_{i} \in F, \\
+        0 & \text{otherwise.}
+        \end{cases}
+        \]
+    </p>
+
+    <h5> Definition 4</h5>
+
+    <p>
+        Let $A = (Q,\Sigma,s,F,g)$ be an AFA and $w\in \Sigma^{*}$. In order to define acceptance of $w$ by $A$ we need to extend $g$ to be a function of $Q$ to the set of all functions $\Sigma^{*} \times B^{Q} \rightarrow B$. We do that by extending $g_{q}$ as follows:
+        \[
+        g_{q}(w,u) =
+        \begin{cases}
+        u_{q} & \text{if } w = \epsilon, \\
+        g_{q}(a,g_{Q}(w',u)) & \text{if } w=aw' \text{ with } a \in \Sigma \text{ and } w' \in \Sigma^{*}.
+        \end{cases}
+        \]
+        where $ u\in B^{Q}$.
+        Then, we say that \[\boldsymbol{A} \text{ accepts } \boldsymbol{w} \text{ if and only if } \boldsymbol{g_{s}(w,f) = 1}\] where $f$ is the characteristic function of $F$. The language accepted by A is the set \[\boldsymbol{L = \{w \in \Sigma^{*}|g_{s}(w,f) = 1\}}.\]
+    </p>
+
+    <h5> Example (revisited)</h5>
+    <p>Revisiting the example above, we can arrive at the final result using the formal definition as shown below:</p>
+    \[
+    \begin{aligned}
+    g_{q_0}(bba,f) &= g_{q_0}(b, g_{Q}(ba,f)) \quad\quad && \big(\text{by Definition 4}\big)
+    \\&=
+    g_{q_0}(b, g_{Q}(b, g_{Q}(a,f))) \quad\quad && \big (\text{by  Definition 4}\big)
+    \\&=
+    g_{q_0}(b, g_{Q}(b, g_{Q}(a, (0,1)))) \quad\quad && \big( f = (0,1) \text{ by Definition 3}\big)
+    \\&=
+    g_{q_0}(b, g_{Q}(b, (1,0))) \quad\quad && \big( g_{Q}(a, (0,1))) =  (1,0)  \text{ by Definition 2}\big)
+    \\&=
+    g_{q_0}(b, (1,0)) \quad\quad && \big( g_{Q}(b, (1,0))) =  (1,0)  \text{ by Definition 2}\big)
+    \\&=
+    1
+    \end{aligned}
+    \]
+
+
+</body>

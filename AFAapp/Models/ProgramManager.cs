@@ -25,32 +25,68 @@ namespace AFAapp.Models
         }
 
 
-        public bool determineAcceptance()
+        public (string, bool) determineAcceptance()
         {
             var (s, d) = activateAut();
             string finalString = d.lastString();
             string stringToEval = statesToBool(finalString, a.finalStates);
-            return computeString(stringToEval);
+            return ((stringToEval, computeString(stringToEval)));
         }
 
 
         public string statesToBool(string stringToEval, List<string> final)
         {
-
-            foreach (string s in Global.stringToArray(stringToEval))
+            string[] arr = Global.stringToArray(stringToEval);
+            int ind = 0;
+            string newString = "";
+            foreach (string str in arr)
             {
-                if (final.Contains(s))
+                if (final.Contains(str))
                 {
-                    stringToEval = stringToEval.Replace(s, "true");
+                    //if (ind != 0 && (arr[ind - 1] == " " || arr[ind - 1] == "("))
+                    //{
+                    //    if (ind + 1 < arr.Length && (arr[ind + 1] == " " || arr[ind + 1] == ")"))
+                    //    {
+                    arr[ind] = "true";
+                    //    }
+                    //}
+
+
+
+                    //int firstInd = stringToEval.IndexOf(str);
+                    //int lastInd = firstInd + str.Length;
+                    //if (stringToEval[firstInd - 1] == ' ' || stringToEval[firstInd - 1] == '(')
+                    //{
+                    //    if (stringToEval[lastInd + 1] == ' ' || stringToEval[lastInd + 1] == ')')
+                    //    {
+                    //        stringToEval = stringToEval.Replace(str, "true");
+                    //        Console.WriteLine($"StringToEval: {stringToEval}");
+                    //    }
+                    //}
                 }
 
-                else if (!Global.connectives.Contains(s) && !Global.booleans.Contains(s) && s != "(" && s != ")")
+                //else if (!Global.connectives.Contains(str) && !Global.booleans.Contains(str) && str != "(" && str != ")")
+                //{
+                //    stringToEval = stringToEval.Replace(str, "false");
+                //}
+
+                else if (!Global.connectives.Contains(str) && !Global.booleans.Contains(str) && str != "(" && str != ")")
                 {
-                    stringToEval = stringToEval.Replace(s, "false");
+                    arr[ind] = "false";
                 }
 
+
+                ind += 1;
             }
-            return stringToEval;
+
+            foreach (var item in arr)
+            {
+                newString += item + " ";
+            }
+
+            newString.Replace("( ", "(").Replace(" (", "(").Replace(") ", ")").Replace(" )", ")");
+
+            return newString;
         }
 
 
@@ -81,8 +117,10 @@ namespace AFAapp.Models
 
                     if (a.getKeys().Contains(stateLetter))
                     {
+
                         initialUpdated += "(" + a.transitionFunction[stateLetter] + ")";
                         subsList.Add((level, letter, (j, a.transitionFunction[stateLetter])));
+
                     }
 
                     else if (Global.connectives.Contains(j))
@@ -121,7 +159,7 @@ namespace AFAapp.Models
                 initial = initialUpdated;
                 level += 1;
             }
-
+            Console.WriteLine(d);
             return (subsList, d);
         }
 
@@ -189,7 +227,7 @@ namespace AFAapp.Models
                     }
                 }
             }
-            
+
             return connectivesList;
         }
 
@@ -259,6 +297,7 @@ namespace AFAapp.Models
 
             var strArrNoPar = strArr.Where(x => x != "(" && x != ")");
             var conList = new List<string>();
+            int n = 0;
 
             foreach (var j in strArrNoPar)
             {
@@ -269,8 +308,9 @@ namespace AFAapp.Models
                     foreach (var i in subsList)
                     {
 
-                        if (step.Item2 == i.Item2 && j == i.Item3.Item1 && Global.stringToArray(s).Contains(j))
+                        if (step.Item2 == i.Item2 && j == i.Item3.Item1 && Global.stringToArray(s.Substring(n)).Contains(j))
                         {
+                            n += 1;
                             char m = d.getStep(level + 1).Item2;
 
                             if (numberOfStates(s) > tree.children.Count)

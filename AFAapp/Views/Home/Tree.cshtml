@@ -2,7 +2,14 @@
 
 
 <!DOCTYPE html>
+
+
 <head>
+    <script>MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
 </head>
 
 <body>
@@ -12,14 +19,26 @@
         {
             showTree(new Tree(Model.letter, Model.state, Model.connectives, Model.children));
 
+        <p class="right-col-p" style="margin-top: 7%">
+            Then, assigning <strong>true</strong> to <strong> final states </strong> and
+            <strong>false</strong> to <strong>non-final states</strong> we get:
+        </p>
+
+
+            <p class="right-col-p"> <strong>@ViewData["stringToEval"].</strong></p>
+
             if ((bool)ViewData["Accepted"])
             {
-                <p class="right-col-p"> The word <strong> "@ViewData["inputWord"]" </strong> is accepted. </p>
+                <p class="right-col-p">
+                    This evaluates to <strong>@ViewData["accepted"]</strong> and therefore, the word <strong> "@ViewData["inputWord"]" </strong> is <strong>accepted</strong>.
+                </p>
             }
 
             else
             {
-                <p class="right-col-p"> The word <strong> "@ViewData["inputWord"]" </strong> is <strong>not</strong> accepted. </p>
+                <p class="right-col-p">
+                    This evaluates to <strong>@ViewData["accepted"]</strong> and therefore, the word <strong> "@ViewData["inputWord"]" </strong> is <strong>not</strong> accepted.
+                </p>
             }
         }
 
@@ -84,8 +103,6 @@
                     @for (int i = 0; i < t.children.Count; i++)
                     {
 
-
-
                         int notCount = 0;
 
 
@@ -97,27 +114,27 @@
                             {
                                 int height = t.height();
                                 @*while (t.children[i].connectives.Count > notCount && t.children[i].connectives[notCount].Item1 == "not")
-                                {*@
+                                    {*@
 
-                                    @*if (t.children[i].connectives[notCount].Item1 == "not")
-                                        {*@
-                                    <li>
-                                        <span>not</span>
+                                @*if (t.children[i].connectives[notCount].Item1 == "not")
+                                    {*@
+                                <li>
+                                    <span>not</span>
 
-                                        @for (int w = 0; w < height-1; w++)
-                                        {   <br>
-                                            <ul>
-                                                <li>
-                                                    <span>not</span>
-                                                </li>
-                                            </ul>
-                                        }
+                                    @for (int w = 0; w < height - 1; w++)
+                                    {<br>
+                                        <ul>
+                                            <li>
+                                                <span>not</span>
+                                            </li>
+                                        </ul>
+                                    }
 
 
-                                    </li>
-                                    @*}*@
+                                </li>
+                                @*}*@
 
-                                    notCount += 1;
+                                notCount += 1;
 
                                 @*}*@
                             }
@@ -132,9 +149,6 @@
                             {
                                 <b>(@t.children[i].letter)</b>
                             }
-
-
-
 
 
                             @for (int j = 0; j < 1; j++)
@@ -294,7 +308,7 @@
             <div class="tree-diagram">
 
                 <ul>
-                    <li>
+                    <li class="root">
                         <b>@t.state</b>
                         @foreach (var i in t.connectives)
                         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AFAapp.Models
 {
@@ -36,6 +37,16 @@ namespace AFAapp.Models
             string[] subs = s2.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
             return subs;
+        }
+
+
+        public static List<string> stringToArrayNoPar(string s)
+        {
+            string s1 = s.Replace("(", "( ");
+            string s2 = s1.Replace(")", " )");
+            string[] subs = s2.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            var strArrNoPar = subs.Where(x => x != "(" && x != ")");
+            return strArrNoPar.ToList();
         }
 
 
