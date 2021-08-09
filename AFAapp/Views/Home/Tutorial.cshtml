@@ -12,7 +12,7 @@
 <body>
 
     <div>
-        <h3> Alternating Finite Automata - Short Tutorial</h3>
+        <h3> Alternating Finite Automata - Brief Tutorial</h3>
     </div>
 
     <div>
@@ -36,12 +36,16 @@
                 </li>
             </ul>
 
-            Alternating finite automata extend nondeterministic finite automata by allowing their transition function to include any boolean expression. An alternating finite automaton works in the following way: when the automaton reads an input symbol $a$ in
+            Alternating finite automata extends nondeterminism by allowing any boolean expression to be included in the transition function. An alternating finite automaton works in the following way: when the automaton reads an input symbol $a$ in
             a given state $q$, it will activate all states of the automaton for which there exists a transition from $q$ with label
             $a$, to work on the remaining part of the input in parallel. Once the states have completed their tasks, $q$ will compute
             its value by applying a Boolean function on those results and pass on the resulting value to the state by which it was activated.
             A word $w$ is accepted if the starting state computes the value of 1. Otherwise, it is rejected.
-
+            In other words, when the automaton reads a letter from the input word, it substitutes each
+            state of the current formula with the formula specified by the transition function. In such a way it builds gradually
+            a propositional formula. As soon as the whole input word has been read by the automaton and the final formula
+            has been constructed, a boolean function applies mapping the final states to 1 and the non-final states to 0.
+            If the formula evaluates to 1, the input word is accepted. Otherwise, it is rejected.
         </p>
     </div>
 
@@ -184,7 +188,7 @@
         Then, after assigning 1 to final states (i.e $q_{1}$) and 0 to non-final states, the final formula above evaluates to 1 which shows that $w$ is accepted by the AFA $A$.
     </p>
 
-    <h3> Formal Desctiption</h3>
+    <h3 style="margin-top: 2%"> Formal Description</h3>
     <p>The complete formal, mathematical description of an AFA is provided below.</p>
     <h5> Definition 1</h5>
     <p>
@@ -198,7 +202,7 @@
         <li> $g$ is a function of $Q$ into the set of all functions $\Sigma \times B^{Q} \rightarrow B$.</li>
     </ul>
     <p>
-        For convenience, we will use $g_{q}$ instead of g(q) to denote the function $\Sigma \times B^{Q} \rightarrow B$ for each $q \in Q$. It is evident that for any $q \in Q$, $u \in B^{Q}$ we have that $g_{q} (a,u) \in \{0,1\}$.
+        For convenience, we will use $g_{q}$ instead of $g(q)$ to denote the function $\Sigma \times B^{Q} \rightarrow B$ for each $q \in Q$. It is evident that for any $q \in Q$, $u \in B^{Q}$ we have that $g_{q} (a,u) \in \{0,1\}$.
     </p>
 
     <h5> Definition 2</h5>

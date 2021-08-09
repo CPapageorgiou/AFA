@@ -26,6 +26,7 @@ namespace AFAapp.Models
             this.letter = '\0';
         }
 
+        // Only one state.
         public Tree(string state)
         {
             this.children = new List<Tree> { };
@@ -82,20 +83,16 @@ namespace AFAapp.Models
         }
 
 
-
-
         public void addChild(Tree t)
         {
             children.Add(t);
         }
 
 
-
         public void addConnective(string conn, int n)
         {
             connectives.Add((conn, n));
         }
-
 
 
         public int height(int r = 0)
@@ -113,7 +110,6 @@ namespace AFAapp.Models
                 return children[0].height(r);
             }
         }
-
 
 
         public List<(Tree, int)> nLev(int n, int k = 0, List<(Tree, int)> treeList = default)
@@ -137,7 +133,6 @@ namespace AFAapp.Models
             }
             return treeList;
         }
-
 
 
         public void setConnectives()
@@ -164,7 +159,6 @@ namespace AFAapp.Models
             }
 
         }
-
 
 
         public void PrintPretty(bool last = true, string indent = "")
@@ -200,7 +194,6 @@ namespace AFAapp.Models
         }
 
 
-
         public override bool Equals(object obj)
         {
             return Equals(obj as Tree);
@@ -228,9 +221,7 @@ namespace AFAapp.Models
             return other != null &&
                state == other.state &&
                children.SequenceEqual(other.children) &&
-               //EqualityComparer<List<Tree>>.Default.Equals(children, other.children) &&
                connectives.SequenceEqual(other.connectives)
-                //   EqualityComparer<List<string>> .Default.SequenceEquals(connectives, other.connectives)
                 && letter == other.letter;
 
         }
@@ -239,73 +230,6 @@ namespace AFAapp.Models
         {
             return HashCode.Combine(state, children, connectives, letter);
         }
-
-
-
-
-        // Unused
-
-
-        static Tree t = new Tree();
-
-        public Tree previousLevel(Tree node)
-        {
-
-            for (int i = 0; i < this.children?.Count(); i++)
-            {
-                if (this.children[i].Equals(node))
-                {
-                    t = this;
-                    return t;
-                }
-            }
-
-            for (int i = 0; i < this.children?.Count(); i++)
-            {
-                this.children[i].previousLevel(node);
-            }
-
-            return t;
-        }
-
-
-
-        public Tree nodesAtLevel(int n)
-        {
-
-            if (children.Count == 0)
-            {
-                return this;
-            }
-
-            else if (n == 0)
-            {
-                return this;
-            }
-
-            else
-            {
-                return children[0].nodesAtLevel(n - 1);
-            }
-        }
-
-
-
-        public bool isRightmost()
-        {
-            bool b = false;
-
-            int x = children.Count;
-
-            for (int i = 0; i < x; i++)
-            {
-                children[i].isRightmost();
-            }
-
-            return b;
-        }
-
-
 
     }
 }

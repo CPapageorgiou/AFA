@@ -1,7 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-
+﻿
 function tableFix()
 {
     var rows = $("#myTable tr");
@@ -60,8 +57,7 @@ $(function () {
         checkBoxes.eq(1).prop('checked', true);
 
 
-
-
+        //  Example with false.
 
         //$("#initialState").val("s");
         //$("#inputWord").val("ab");

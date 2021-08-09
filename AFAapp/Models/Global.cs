@@ -7,21 +7,6 @@ namespace AFAapp.Models
 
     public static class Global
     {
-        public static AFA a1 = new AFA(
-            "q0",
-
-             new Dictionary<(string, char), string>()
-
-            { { ("q0",'a'), "q1" },
-
-            { ("q0",'b'), "q0 and not q1"},
-
-            { ("q1",'a'), "q0" },
-
-            { ("q1",'b'), "not q0" } },
-
-            new List<string> { "q1" });
-
 
         public static string[] booleans = { "0", "1", "true", "false", "True", "TRUE", "False", "FALSE" };
 

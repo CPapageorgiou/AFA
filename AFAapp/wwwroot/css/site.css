@@ -1,8 +1,4 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-
-
+﻿
 a.navbar-brand {
     white-space: normal;
     text-align: center;
@@ -42,35 +38,6 @@ a {
 
 
 
-/* Sticky footer styles
--------------------------------------------------- */
-/*html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}*/
-
-/* Sticky footer styles
--------------------------------------------------- */
 html {
     position: relative;
     min-height: 100%;
@@ -92,125 +59,13 @@ body {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*.tree,
-.tree ul,
-.tree li {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    position: relative;
-}
-
-.tree {
-    margin: 0 0 1em;
-    text-align: center;
-}
-
-    .tree,
-    .tree ul {
-        display: table;
-    }
-
-        .tree ul {
-            width: 100%;
-        }
-
-        .tree li {
-            display: table-cell;
-            padding: .5em 0;
-            vertical-align: top;
-        }
-
-            .tree li:before {
-                outline: solid 1px #666;
-                content: "";
-                left: 0;
-                position: absolute;
-                right: 0;
-                top: 0;
-            }
-
-            .tree li:first-child:before {
-                left: 50%;
-            }
-
-            .tree li:last-child:before {
-                right: 50%;
-            }
-
-        .tree code,
-        .tree span {
-            border: solid .1em #666;
-            border: none;
-            border-radius: .2em;
-            display: inline-block;
-            margin: 0 .2em .5em;
-            padding: .2em .5em;
-            position: relative;
-        }
-
-            .tree ul:before,
-            .tree code:before,
-            .tree span:before {
-                outline: solid 1px #666;
-                content: "";
-                height: .5em;
-                left: 50%;
-                position: absolute;
-            }
-
-        .tree ul:before {
-            top: -.5em;
-        }
-
-        .tree code:before,
-        .tree span:before {
-            top: -.55em;
-        }
-
-        .tree > li {
-            margin-top: 0;
-        }
-
-            .tree > li:before,
-            .tree > li:after,
-            .tree > li > code:before,
-            .tree > li > span:before {
-                outline: none;
-            }
-
-*/
-
-
-
-
-
-
-
-/*            Tree3*/
+/* Tree*/
 
 .tree-diagram {
     overflow: auto;
     margin: 0 auto;
 
 }
-
 
     .tree-diagram ul {
         display: flex;
@@ -282,188 +137,12 @@ body {
 }
 
 
-/*.tree-diagram .connectives::after{*/
-/*    border-right: 1px dotted rgba(0, 0, 0, .3) !important;*/
-    /*border: 1px dotted !important
-}*/
-
 /* Add a root item if you want */
 li.tree-diagram__root::before {
     border-right: none;
 }
-/*.tree-diagram .root li:first-child::before {
-    border-right: none;
-}*/
 
+/* Remove the top border from root  */
 .tree-diagram .root::before {
     border-right: none;
-}
-
-.tr ul {
-    display: table;
-    position: relative;
-    /* Reset */
-    list-style-type: none;
-    margin: 0;
-    padding: 1rem 0.5rem 0rem 0.5rem;
-}
-
-
-.tr ul ul::before {
-    border-right: 1px solid rgba(0, 0, 0, .3);
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 50%;
-    height: 1rem;
-    width: 50%;
-}
-
-
-/*.tr ul {
-    display: table;
-}*/
-
-.tr li {
-    padding: 1rem 0.5rem 0rem 0.5rem;
-    position: relative;
-/*     Center the content */
-/*    align-items: center;*/
-    display: table-cell;
-/*    flex-direction: column;*/
-}
-
-
-.tr li::before {
-    border-right: 1px solid rgba(0, 0, 0, .3);
-    border-top: 1px solid rgba(0, 0, 0, .3);
-    content: '';
-    /* Position */
-    position: absolute;
-    top: 0;
-    right: 50%;
-    /* Size */
-    height: 1rem;
-    width: 50%;
-}
-
-.tr li::after {
-    border-top: 1px solid rgba(0, 0, 0, .3);
-    content: '';
-    /* Position */
-    position: absolute;
-    top: 0;
-    right: 0;
-    /* Size */
-    width: 50%;
-}
-
-
-
-.tr li:first-child::before,
-.tr li:last-child::after {
-    /* Remove the top of border from the first and last items */
-    border-top: none;
-}
-
-/* Add a root item if you want */
-li.tr__root::before {
-    border-right: none;
-}
-
-
-
-
-
-
-.tree {
-    background: white;
-}
-
-.tree ul {
-    padding-top: 20px;
-    position: relative;
-    webkit-transition: all 0.5s;
-    -moz-transition: all 0.5s;
-    transition: all 0.3s;
-    display: flex;
-    justify-content: center;
-}
-
-.tree li {
-    float: left;
-    list-style: none;
-    text-align: center;
-    position: relative;
-    padding: 20px 5px 0 5px;
-}
-/*    Use::before,::after as branch line*/
-    .tree li::before,
-    .tree li::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 50%;
-        width: 50%;
-        height: 20px;
-        border-top: 1px solid #ccc;
-    }
-
-    .tree li:after {
-        right: auto;
-        left: 50%;
-        border-left: 1px solid #ccc;
-    }
-
-    .tree li:first-child::before,
-    .tree li:last-child::after {
-        border: 0 none;
-    }
-
-    .tree li:last-child::before {
-        border-right: 1px solid #ccc;
-        border-radius: 0 10px 0 0;
-    }
-
-    .tree li:first-child::after {
-        border-radius: 10px 0 0 0;
-    }
-
-/*    Delete branch lines with only one branch*/
-    .tree li:only-child::before,
-    .tree li:only-child::after {
-        border: none;
-    }
-
-    .tree li:only-child {
-        padding-top: 0;
-    }
-
-/*Add a lower branch line with only one branch*/
-.tree ul ul::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    border-left: 1px solid #ccc;
-    width: 0;
-    height: 20px;
-}
-
-.tree a {
-    font-size: 12px;
-    display: inline-block;
-    color: #666;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-.heda {
-    width: 50px;
-    height: 60px;
-    margin: auto;
-    background: #ccc;
-    text-align: center;
-}
-
 }

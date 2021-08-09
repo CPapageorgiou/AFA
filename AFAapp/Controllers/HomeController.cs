@@ -71,14 +71,12 @@ namespace AFAapp.Controllers
                         var (s, d) = p.activateAut();
                         var tree = p.generateTree(0, d, s, initialState);
                         tree.setConnectives();
-                        //return View("Index", tree);
                         return PartialView("Tree", tree);
                     }
 
                     catch
                     {
-                        ViewData["Error"] = "Your Input is invalid, please check again. Make sure you have followed the instructions.";
-                        //return View("Index");
+                        ViewData["Error"] = "Your Input is invalid. Please make sure that you have followed the instructions.";
                         return PartialView("Tree");
                     }
                 }
@@ -86,7 +84,6 @@ namespace AFAapp.Controllers
                 else
                 {
                     ViewData["Error"] = "Your Input is invalid. The input word must contain only letters from the alphabet.";
-                    //return View("Index");
                     return PartialView("Tree");
 
                 }
@@ -95,9 +92,7 @@ namespace AFAapp.Controllers
             else
             {
                 ViewData["Error"] = "Your Input is invalid. The initial state must be contained in the transition function.";
-                //return View("Index");
                 return PartialView("Tree");
-
             }
         }
 

@@ -19,10 +19,10 @@
         {
             showTree(new Tree(Model.letter, Model.state, Model.connectives, Model.children));
 
-        <p class="right-col-p" style="margin-top: 7%">
-            Then, assigning <strong>true</strong> to <strong> final states </strong> and
-            <strong>false</strong> to <strong>non-final states</strong> we get:
-        </p>
+            <p class="right-col-p" style="margin-top: 7%">
+                Then, assigning <strong> true </strong> to <strong> final states </strong> and
+                <strong>false</strong> to <strong>non-final states</strong> we get:
+            </p>
 
 
             <p class="right-col-p"> <strong>@ViewData["stringToEval"].</strong></p>
@@ -59,11 +59,6 @@
 
         public void showTree3(Tree t)
         {
-            @*padding - left:inherit;*@
-            @*style = "display:flex; justify-content: center"*@
-            @*text - align:left*@
-            @*<div>*@
-            @*<ul style="list-style-position: inside;">*@
             <ul>
 
                 <li>
@@ -88,7 +83,6 @@
                 }
 
             </ul>
-            @*</div>*@
 
         }
 
@@ -102,10 +96,6 @@
 
                     @for (int i = 0; i < t.children.Count; i++)
                     {
-
-                        int notCount = 0;
-
-
                         @if (t.children[i].connectives != null && t.children[i].connectives.Any() && t.children[i].connectives[0].Item1 == "not")
                         {
                             var stateArr = Global.stringToArrayNoPar(t.state);
@@ -113,11 +103,6 @@
                             if (stateArr[0] == "not")
                             {
                                 int height = t.height();
-                                @*while (t.children[i].connectives.Count > notCount && t.children[i].connectives[notCount].Item1 == "not")
-                                    {*@
-
-                                @*if (t.children[i].connectives[notCount].Item1 == "not")
-                                    {*@
                                 <li>
                                     <span>not</span>
 
@@ -132,11 +117,6 @@
 
 
                                 </li>
-                                @*}*@
-
-                                notCount += 1;
-
-                                @*}*@
                             }
                         }
 
@@ -183,74 +163,6 @@
 
                                     </span>
 
-
-                                    @*connectives tou telefteou child t.children[i]*@
-
-                                    @{
-
-                                        @*if (t.children[i].children != null && t.children[i].children.Any())
-                                            {
-                                                int c = t.children[i].children.Count;
-
-                                                if (t.children[i].children[c - 1].connectives != null && t.children[i].children[c - 1].connectives.Any())
-                                                {
-                                                    var cons = t.children[i].children[c - 1].connectives;
-                                                    <br>
-                                                    <ul>
-                                                        <li>
-                                                            <span>
-                                                                @foreach (var k in cons)
-                                                                {
-                                                                    <span> @k.Item1</span>;
-                                                                }
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                }
-                                            }*@
-                                    }
-
-                                    @*@{var hasNextLevel = false;}
-                                        @foreach (var child in t.children)
-                                        {
-                                            if (child.children != null && child.children.Any())
-                                            {
-                                                hasNextLevel = true;
-                                            }
-                                        }*@
-
-                                    @*@{var hasNextLevel = true;}
-
-                                        @while (hasNextLevel)
-                                        {
-
-                                            foreach (var child in t.children)
-                                            {
-                                                if (child.children == null || !child.children.Any())
-                                                {
-                                                    hasNextLevel = false;
-                                                }
-                                            }
-
-                                            if (hasNextLevel)
-                                            {
-                                                <br>
-                                                <ul>
-                                                    <li>
-
-                                                        <span>
-                                                            @foreach (var l in conList)
-                                                            {
-                                                                <span> @l </span>
-                                                            }
-                                                        </span>
-                                                    </li>
-
-                                                </ul>
-                                            }
-                                        }*@
-
-
                                     @{ int h = t.height();
                                         for (int r = 0; r < h - 1; r++)
                                         {
@@ -271,30 +183,6 @@
                                     }
                                 </li>
                             }
-
-
-
-                            @*else
-                                {
-                                    <li>
-                                        <ul>
-                                            <li>
-                                                <span>
-                                                    @foreach (var con in t.children[i].connectives)
-                                                    {
-                                                        <span> @con.Item1</span>
-                                                    }
-
-                                                </span>
-
-                                            </li>
-                                        </ul>
-                                    </li>
-
-
-                                }*@
-
-
                         }
                     }
                 </ul>
@@ -328,127 +216,6 @@
             </div>
         }
     }
-
-    @*<ul class="tree">
-            <li>
-                <span>q0(b)</span>
-                <ul>
-                    <li>
-                        <span>q0 and not q1</span>
-
-                        <ul>
-                            <li>
-                                <span>q0 and not q1 and not</span>
-                                <ul>
-                                    <li><span>q1 and not</span></li>
-                                    <li><span>q0 and not not</span></li>
-                                </ul>
-
-                            </li>
-                            <li>
-                                <span>not q0</span>
-                                <ul>
-                                    <li><span>q1</span></li>
-                                </ul>
-                            </li>
-                        </ul>
-
-
-                </ul>
-            </li>
-        </ul>
-
-
-
-
-
-
-        <div class="tree-diagram">
-            <ul>
-                <li>
-                    <a href="#">Parent</a>
-                    <ul>
-                        <li>
-                            <a href="#">Child</a>
-                            <ul>
-                                <li>
-                                    <a href="#">Grand Child</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">Child</a>
-                            <ul>
-                                <li><a href="#">Grand Child</a></li>
-                                <li>
-                                    <a href="#">Grand Child</a>
-                                    <ul>
-                                        <li>
-                                            <a href="#">Great Grand Child</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Great Grand Child</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Great Grand Child</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a href="#">Grand Child</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-
-
-
-
-
-
-        <div class="tree">
-            <ul>
-                <li>
-                    <a href="#">
-                        <div class="heda"></div>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="#">
-                                <div class="heda"></div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="heda"></div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="heda"></div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="heda"></div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="heda"></div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div class="heda"></div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>*@
-
 
 
 </body>

@@ -43,38 +43,13 @@ namespace AFAapp.Models
             {
                 if (final.Contains(str))
                 {
-                    //if (ind != 0 && (arr[ind - 1] == " " || arr[ind - 1] == "("))
-                    //{
-                    //    if (ind + 1 < arr.Length && (arr[ind + 1] == " " || arr[ind + 1] == ")"))
-                    //    {
                     arr[ind] = "true";
-                    //    }
-                    //}
-
-
-
-                    //int firstInd = stringToEval.IndexOf(str);
-                    //int lastInd = firstInd + str.Length;
-                    //if (stringToEval[firstInd - 1] == ' ' || stringToEval[firstInd - 1] == '(')
-                    //{
-                    //    if (stringToEval[lastInd + 1] == ' ' || stringToEval[lastInd + 1] == ')')
-                    //    {
-                    //        stringToEval = stringToEval.Replace(str, "true");
-                    //        Console.WriteLine($"StringToEval: {stringToEval}");
-                    //    }
-                    //}
                 }
-
-                //else if (!Global.connectives.Contains(str) && !Global.booleans.Contains(str) && str != "(" && str != ")")
-                //{
-                //    stringToEval = stringToEval.Replace(str, "false");
-                //}
 
                 else if (!Global.connectives.Contains(str) && !Global.booleans.Contains(str) && str != "(" && str != ")")
                 {
                     arr[ind] = "false";
                 }
-
 
                 ind += 1;
             }
@@ -197,8 +172,7 @@ namespace AFAapp.Models
 
             var connectivesList = new List<(string, int)>();
             int conInt2 = -1;
-            //Global.Print(strArr);
-            //Console.WriteLine("-----------------------");
+
             for (int j = 0; j < strArr.Count(); j++)
             {
                 string element = strArr.ElementAt(j);
