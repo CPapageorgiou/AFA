@@ -17,7 +17,7 @@
     @{
         try
         {
-            showTree(new Tree(Model.letter, Model.state, Model.connectives, Model.children));
+            showTree(new Tree(Model.letter, Model.node, Model.connectives, Model.children));
 
             <p class="right-col-p" style="margin-top: 7%">
                 Then, assigning <strong> true </strong> to <strong> final states </strong> and
@@ -62,7 +62,7 @@
             <ul>
 
                 <li>
-                    <b>@t.state</b>
+                    <b>@t.node</b>
                     @foreach (var i in t.connectives)
                     {
                         <b>@i.Item1</b>
@@ -98,7 +98,7 @@
                     {
                         @if (t.children[i].connectives != null && t.children[i].connectives.Any() && t.children[i].connectives[0].Item1 == "not")
                         {
-                            var stateArr = Global.stringToArrayNoPar(t.state);
+                            var stateArr = Global.stringToArrayNoPar(t.node);
 
                             if (stateArr[0] == "not")
                             {
@@ -122,7 +122,7 @@
 
                         <li>
                             <span>
-                                <b>@t.children[i].state</b>
+                                <b>@t.children[i].node</b>
                             </span>
 
                             @if (t.children[i].letter != '\0')
@@ -197,7 +197,7 @@
 
                 <ul>
                     <li class="root">
-                        <b>@t.state</b>
+                        <b>@t.node</b>
                         @foreach (var i in t.connectives)
                         {
                             <b>@i.Item1</b>

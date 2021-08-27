@@ -8,7 +8,7 @@ namespace AFAapp.Models
     public class Tree : IEquatable<Tree>
     {
 
-        public string state { get; set; }
+        public string node { get; set; }
 
         public List<Tree> children { get; set; }
 
@@ -22,64 +22,36 @@ namespace AFAapp.Models
         {
             this.children = new List<Tree> { };
             this.connectives = new List<(string, int)>();
-            this.state = "";
+            this.node = "";
             this.letter = '\0';
         }
 
         // Only one state.
-        public Tree(string state)
+        public Tree(string node)
         {
             this.children = new List<Tree> { };
             this.connectives = new List<(string, int)>();
-            this.state = this.state = state;
+            this.node = node;
             this.letter = '\0';
         }
 
 
         // No children
-        public Tree(char letter, string state, List<(string, int)> connectives)
+        public Tree(char letter, string node, List<(string, int)> connectives)
         {
             this.letter = letter;
-            this.state = state;
+            this.node = node;
             this.connectives = connectives;
-            //children = new List <Tree> { };
         }
 
 
-        public Tree(char letter, string state, List<(string, int)> connectives, List<Tree> children)
+        public Tree(char letter, string node, List<(string, int)> connectives, List<Tree> children)
         {
 
             this.children = children;
             this.connectives = connectives;
-            this.state = state;
+            this.node = node;
             this.letter = letter;
-        }
-
-
-        public void removeEmpty()
-        {
-            int count = 0;
-
-            if (children != null)
-            {
-                for (int i = 0; i < children.Count; i++)
-                {
-                    count += 1;
-
-                    if (children[i].state == "" && children[i].children != null)
-                    {
-                        children.AddRange(children[i].children);
-
-                        children.RemoveAt(i);
-                    }
-
-                }
-
-                for (int i = 0; i < children.Count(); i++)
-                {
-                    children[i].removeEmpty();
-                }
-            }
         }
 
 
@@ -95,6 +67,7 @@ namespace AFAapp.Models
         }
 
 
+        // Returns the zero-based height of a tree.
         public int height(int r = 0)
         {
             if (children == null || children.Count == 0)
@@ -111,8 +84,9 @@ namespace AFAapp.Models
             }
         }
 
-
-        public List<(Tree, int)> nLev(int n, int k = 0, List<(Tree, int)> treeList = default)
+        // Given an integer n it reuturns the list of sub-trees begining from level n. Each sub-tree is associted by an integer indicating which number of child of its parent is. 
+        // The length of the returned list is thus the number of nodes at level n.
+        public List<(Tree, int)> subTreesAt(int n, int k = 0, List<(Tree, int)> treeList = default)
         {
             if (treeList == default) treeList = new List<(Tree, int)>();
 
@@ -127,7 +101,7 @@ namespace AFAapp.Models
                 {
                     for (int j = 0; j < children.Count; j++)
                     {
-                        children[j].nLev(n - 1, j, treeList);
+                        children[j].subTreesAt(n - 1, j, treeList);
                     }
                 }
             }
@@ -135,36 +109,62 @@ namespace AFAapp.Models
         }
 
 
+        // Helper method to set the connectives associated to eaach node correctly.
         public void setConnectives()
         {
-            int treeheight = this.height();
+            int treeHeight = this.height();
 
-            List<(Tree, int)> treeLevels = new List<(Tree, int)>();
+            List<(Tree, int)> subTrees = new List<(Tree, int)>();
 
             List<(string, int)> y;
 
-            for (int i = 0; i <= treeheight; i++)
+            for (int i = 0; i <= treeHeight; i++)
             {
-                treeLevels = nLev(i);
+                subTrees = subTreesAt(i);
 
-                int numberOfTrees = treeLevels.Count;
+                int numberOfNodes = subTrees.Count;
 
-                for (int j = 0; j < numberOfTrees; j++)
+                for (int j = 0; j < numberOfNodes; j++)
                 {
-                    y = new List<(string, int)>(treeLevels[j].Item1.connectives);
+                    y = new List<(string, int)>(subTrees[j].Item1.connectives);
                     y.RemoveAll(r => r.Item2 != j);
-                    treeLevels[j].Item1.connectives = new List<(string, int)>(y);
-
+                    subTrees[j].Item1.connectives = new List<(string, int)>(y);
                 }
             }
-
         }
 
 
+        // Removes empty nodes from the tree.
+        public void removeEmpty()
+        {
+            int count = 0;
+
+            if (children != null)
+            {
+                for (int i = 0; i < children.Count; i++)
+                {
+                    count += 1;
+
+                    if (children[i].node == "" && children[i].children != null)
+                    {
+                        children.AddRange(children[i].children);
+                        children.RemoveAt(i);
+                    }
+
+                }
+
+                for (int i = 0; i < children.Count(); i++)
+                {
+                    children[i].removeEmpty();
+                }
+            }
+        }
+
+
+        // Prints a tree to the console for testing purposes.
         public void PrintPretty(bool last = true, string indent = "")
         {
             string connectivesStr = "";
-
 
             Console.Write(indent);
             if (last)
@@ -183,7 +183,7 @@ namespace AFAapp.Models
                 connectivesStr += i.Item1 + " ";
             }
 
-            Console.WriteLine($"{state} {connectivesStr} ({letter})");
+            Console.WriteLine($"{node} {connectivesStr} ({letter})");
 
 
             for (int i = 0; i < children?.Count; i++)
@@ -193,6 +193,8 @@ namespace AFAapp.Models
 
         }
 
+
+        // Tree equality.
 
         public override bool Equals(object obj)
         {
@@ -215,11 +217,11 @@ namespace AFAapp.Models
 
             else if (this.children == null && other.children == null)
             {
-                return state == other.state && letter == other.letter && connectives.SequenceEqual(other.connectives);
+                return node == other.node && letter == other.letter && connectives.SequenceEqual(other.connectives);
             }
 
             return other != null &&
-               state == other.state &&
+               node == other.node &&
                children.SequenceEqual(other.children) &&
                connectives.SequenceEqual(other.connectives)
                 && letter == other.letter;
@@ -228,7 +230,7 @@ namespace AFAapp.Models
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(state, children, connectives, letter);
+            return HashCode.Combine(node, children, connectives, letter);
         }
 
     }

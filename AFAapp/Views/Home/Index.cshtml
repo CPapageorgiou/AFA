@@ -49,6 +49,9 @@
                         The different components of a formula must be separated with a single space character. For example, "q0 and not q1" rather than "q0andnotq1".
                     </li>
                     <li>
+                        Input is case insensitive. For example, not, NOT and Not are all regarded as logical negation.
+                    </li>
+                    <li>
                         Use the keyword "empty" as input word to check if the empty word is accepted.
                     </li>
                     <li>
@@ -190,7 +193,7 @@
             <h3> Computation </h3>
             <p align="justify">
                 This is the output section of the application. In the computation tree, the root is the initial state and each
-                "row"  is a step in the computation.  In each node, the letter consumed by the automaton appers in parenthesis and the bolded parts
+                level of the tree  is a step in the computation.  In each node, the letter consumed by the automaton appears in parenthesis and the bolded parts
                 denote the newly activated states in each step. The unbolded parts are the logical connectives preserved from previous steps.
             </p>
             <div class="d-flex flex-column justify-content-center" id="computationArea">
