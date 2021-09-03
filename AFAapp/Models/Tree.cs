@@ -4,18 +4,17 @@ using System.Linq;
 
 namespace AFAapp.Models
 {
-
+    // Class to create tree objects. Used as the model for the trees.
     public class Tree : IEquatable<Tree>
     {
+        // Properties and Fields.
 
         public string node { get; set; }
-
         public List<Tree> children { get; set; }
-
         public List<(string, int)> connectives { get; set; }
-
         public char letter { get; set; }
 
+        // Constructors.
 
         // Empty
         public Tree()
@@ -44,7 +43,8 @@ namespace AFAapp.Models
             this.connectives = connectives;
         }
 
-
+        // Object from the letter the node, the connectives preserved from the previous node and
+        // the children of the tree.
         public Tree(char letter, string node, List<(string, int)> connectives, List<Tree> children)
         {
 
@@ -55,12 +55,15 @@ namespace AFAapp.Models
         }
 
 
+        // Methods.
+
+        // Adds a child to the current tree.
         public void addChild(Tree t)
         {
             children.Add(t);
         }
 
-
+        // Adds a logical connective to the current tree.
         public void addConnective(string conn, int n)
         {
             connectives.Add((conn, n));
@@ -84,7 +87,8 @@ namespace AFAapp.Models
             }
         }
 
-        // Given an integer n it reuturns the list of sub-trees begining from level n. Each sub-tree is associted by an integer indicating which number of child of its parent is. 
+        // Given an integer n it reuturns the list of sub-trees begining from level n.
+        // Each sub-tree is associted by an integer indicating which number of child of its parent is. 
         // The length of the returned list is thus the number of nodes at level n.
         public List<(Tree, int)> subTreesAt(int n, int k = 0, List<(Tree, int)> treeList = default)
         {

@@ -1,4 +1,5 @@
-﻿
+﻿/* CSS that applies to the whole application */
+
 a.navbar-brand {
     white-space: normal;
     text-align: center;
@@ -28,15 +29,10 @@ a {
     justify-content: center;
 }
 
-
-
 .right-col-p {
     margin-top: 1%;
     width: max-content;
-    /*    margin-left: 8%;*/
 }
-
-
 
 html {
     position: relative;
@@ -44,7 +40,6 @@ html {
 }
 
 body {
-    /*   Margin bottom by footer height */
     margin-bottom: 60px;
 }
 
@@ -58,19 +53,16 @@ body {
 
 }
 
+/* Tree. The following was taken from https://csslayout.io/patterns/tree-diagram/ */
 
-/* Tree*/
-
-.tree-diagram {
+.tree {
     overflow: auto;
     margin: 0 auto;
-
 }
 
-    .tree-diagram ul {
+    .tree ul {
         display: flex;
         position: relative;
-        /* Reset */
         list-style-type: none;
         margin: 0;
         padding: 1rem 0.5rem 0rem 0.5rem;
@@ -79,70 +71,57 @@ body {
         justify-content: center;
     }
 
-
-    .tree-diagram ul ul::before {
+    .tree ul ul::before {
         border-right: 1px solid rgba(0, 0, 0, .3);
         content: '';
-        /* Position */
         position: absolute;
         top: 0;
         right: 50%;
-        /* Size */
         height: 1rem;
         width: 50%;
     }
 
-    .tree-diagram li {
+    .tree li {
         padding: 1rem 0.5rem 0rem 0.5rem;
         position: relative;
-        /* Center the content */
         align-items: center;
         display: flex;
         flex-direction: column;
     }
 
-    .tree-diagram li::before {
+    .tree li::before {
         border-right: 1px solid rgba(0, 0, 0, .3);
         border-top: 1px solid rgba(0, 0, 0, .3);
         content: '';
-        /* Position */
         position: absolute;
         top: 0;
         right: 50%;
-        /* Size */
         height: 1rem;
         width: 50%;
     }
 
-    .tree-diagram li::after {
+    .tree li::after {
         border-top: 1px solid rgba(0, 0, 0, .3);
         content: '';
-        /* Position */
         position: absolute;
         top: 0;
         right: 0;
-        /* Size */
         width: 50%;
     }
 
-    .tree-diagram li:first-child::before,
-    .tree-diagram li:last-child::after {
-        /* Remove the top of border from the first and last items */
+    .tree li:first-child::before,
+    .tree li:last-child::after {
         border-top: none;
     }
 
-.tree-diagram .connectives::before {
+.tree .connectives::before {
     border-right: none !important;
-    /*        border-top: 1px dotted !important*/
 }
 
-
-/* Add a root item if you want */
-li.tree-diagram__root::before {
+li.tree__root::before {
     border-right: none;
 }
 
-/* Remove the top border from root  */
-.tree-diagram .root::before {
+.tree .root::before {
     border-right: none;
 }

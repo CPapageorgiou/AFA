@@ -1,29 +1,20 @@
 ﻿@model AFAapp.Models.Tree
 
-
-<!DOCTYPE html>
-
-
-<head>
-    <script>MathJax = {
-            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
-        };</script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-
-</head>
+<head></head>
 
 <body>
 
     @{
+        @*If the input is valid the Tree is displayed. Otherwise the relevant error message appears*@
+
         try
         {
-            showTree(new Tree(Model.letter, Model.node, Model.connectives, Model.children));
+            displayTree(new Tree(Model.letter, Model.node, Model.connectives, Model.children));
 
             <p class="right-col-p" style="margin-top: 7%">
                 Then, assigning <strong> true </strong> to <strong> final states </strong> and
                 <strong>false</strong> to <strong>non-final states</strong> we get:
             </p>
-
 
             <p class="right-col-p"> <strong>@ViewData["stringToEval"].</strong></p>
 
@@ -48,48 +39,43 @@
             {
                 <p class="text-danger right-col-p">  @ViewData["Error"] </p>
             }
-
         }
     }
 
 
+    @* Functions for creating the Tree view from the provided Tree model.*@
 
     @functions
 {
 
-        public void showTree3(Tree t)
+        public void displayTree(Tree t)
         {
-            <ul>
+            <div class="tree">
 
-                <li>
-                    <b>@t.node</b>
-                    @foreach (var i in t.connectives)
-                    {
-                        <b>@i.Item1</b>
-                    }
+                <ul>
+                    <li class="root">
+                        <b>@t.node</b>
+                        @foreach (var i in t.connectives)
+                        {
+                            <b>@i.Item1</b>
+                        }
 
-                    @if (t.letter != '\0')
-                    {
-                        <b>(@t.letter)</b>;
+                        @if (t.letter != '\0')
+                        {
+                            <b>(@t.letter)</b>;
+                        }
+                        @{ int height = t.height();
 
-                    }
-                </li>
-                @if (t.children != null && t.children.Any())
-                {
-                    for (int i = 0; i < t.children?.Count; i++)
-                    {
-                        showTree3(t.children[i]);
-                    }
-                }
-
-            </ul>
-
+                            displayChildren(t);
+                        }
+                    </li>
+                </ul>
+            </div>
         }
 
-        public void show(Tree t)
+
+        public void displayChildren(Tree t)
         {
-
-
             @if (t.children != null && t.children.Any())
             {
                 <ul>
@@ -98,10 +84,11 @@
                     {
                         @if (t.children[i].connectives != null && t.children[i].connectives.Any() && t.children[i].connectives[0].Item1 == "not")
                         {
-                            var stateArr = Global.stringToArrayNoPar(t.node);
+                            var stateList = Global.stringToListNoPar(t.node);
 
-                            if (stateArr[0] == "not")
+                            while (stateList[0] == "not")
                             {
+                                stateList.RemoveAt(0);
                                 int height = t.height();
                                 <li>
                                     <span>not</span>
@@ -114,7 +101,6 @@
                                             </li>
                                         </ul>
                                     }
-
 
                                 </li>
                             }
@@ -133,14 +119,12 @@
 
                             @for (int j = 0; j < 1; j++)
                             {
-                                show(t.children[i]);
+                                displayChildren(t.children[i]);
                             }
-
-
                         </li>
+
                         @if (t.children[i].connectives != null && t.children[i].connectives.Any())
                         {
-
                             if (i != (t.children.Count - 1))
                             {
                                 var conList = new List<string>();
@@ -188,34 +172,6 @@
                 </ul>
             }
         }
-
-
-
-        public void showTree(Tree t)
-        {
-            <div class="tree-diagram">
-
-                <ul>
-                    <li class="root">
-                        <b>@t.node</b>
-                        @foreach (var i in t.connectives)
-                        {
-                            <b>@i.Item1</b>
-                        }
-
-                        @if (t.letter != '\0')
-                        {
-                            <b>(@t.letter)</b>;
-                        }
-                        @{ int height = t.height();
-
-                            show(t);
-                        }
-                    </li>
-                </ul>
-            </div>
-        }
     }
-
 
 </body>

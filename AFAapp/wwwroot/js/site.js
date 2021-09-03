@@ -1,4 +1,5 @@
 ﻿
+// Makes the table 3x3.
 function tableFix()
 {
     var rows = $("#myTable tr");
@@ -32,7 +33,8 @@ function tableFix()
     }
 }
 
-
+// Functionality of the generate example button.
+// Converts the table to 3x3 and then adds the relevant entries.
 $(function () {
     $("#generateExample").click(function () {
 
@@ -55,42 +57,18 @@ $(function () {
         formulas.eq(2).val("q0");
         formulas.eq(3).val("not q0");
         checkBoxes.eq(1).prop('checked', true);
-
-
-        //  Example with false.
-
-        //$("#initialState").val("s");
-        //$("#inputWord").val("ab");
-
-        //var letters = $("input[name='letters']");
-        //var states = $("input[name='states']");
-        //var formulas = $("input[name='formulas']");
-        //var checkBoxes = $("input[type = 'checkbox']");
-
-        //letters.eq(0).val("a");
-        //letters.eq(1).val("b");
-        //states.eq(0).val("s");
-        //states.eq(1).val("q");
-        //formulas.eq(0).val("q");
-        //formulas.eq(1).val("false");
-        //formulas.eq(2).val("false");
-        //formulas.eq(3).val("p or s");
-        //formulas.eq(4).val("s");
-        //formulas.eq(5).val("false");
-
-
-        //checkBoxes.eq(0).prop('checked', true);
-
     })
 })
 
+// Overrides the default behaviour of opening a new view in a new page
+// to get the Tree view as a partial view within the Index view.
 $(function () {
     $("#form").submit(function () {
         event.preventDefault();
 
         $.ajax({
             type: "POST",
-            url: 'Home/Tree5',
+            url: 'Home/Tree',
             data: $("form").serialize(),
             success: function (data) {
                 $("#computationArea").html(data);
@@ -99,7 +77,7 @@ $(function () {
     })
 })
 
-
+// Adds a row to the table.
 function addRow() {
 
     var colCount = $("#myTable tr th").length;
@@ -139,7 +117,7 @@ function addRow() {
 }
 
 
-
+// Deletes a row from the table.
 function delRow(r) {
 
     var ind = r.parentNode.parentNode.rowIndex;
@@ -147,6 +125,7 @@ function delRow(r) {
     table.deleteRow(ind);
 }
 
+// Deletes a column from the table.
 function delCol(c) {
     var ind = c.closest("td").cellIndex;
     $("tr").each(function (j, row) {
@@ -154,6 +133,7 @@ function delCol(c) {
     });
 }
 
+// Adds a column to the table.
 function addCol() {
     var colCount = $("#myTable tr th").length;
     $("#myTable tr").each((i, row) => {

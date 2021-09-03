@@ -3,74 +3,66 @@
     ViewData["Title"] = "Home Page";
 }
 
-
-
 <head>
     <link rel="stylesheet" href="~/css/homePage.css" />
-
-
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script>MathJax = {
-            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
-        };</script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-
-
-
     <title>Alternating Finite Automata</title>
-
 </head>
 
 <body>
-    @*mb-5 bg-warning*@
     <div class="row-fluid">
         <div class="span6 column" style="padding-right: 1%">
             <h3> Input </h3>
 
+            @*---------Input Instructions---------*@
+
             <p align="justify">
                 Enter an AFA and an input word below or click <strong>Generate example</strong> to have the app generate an example for you.
                 Next, click <strong>Run</strong> to display the computation. For the relevant background on alternating finite automata please visit the <a asp-controller="Home" asp-action="Tutorial">tutorial page</a>.
-                
+
                 Before using the app, please read the instructions below.
                 <ul>
                     <li>
-                        All fields must be filled before submitting the form. Use the dedicated buttons to add states/letters and the "x" buttons to remove states/letters.
+                        All fields must be filled before submitting the form.
                     </li>
+
                     <li>
                         Use a single character for each letter.
                     </li>
+
                     <li>
                         The initial state must be a single state, not a formula.
                     </li>
+
                     <li>
                         Use the keywords "and", "or", "not" for logical conjuction, disjuction and negation respectively.
                     </li>
+
                     <li>
                         The different components of a formula must be separated with a single space character. For example, "q0 and not q1" rather than "q0andnotq1".
                     </li>
+
                     <li>
                         Input is case insensitive. For example, not, NOT and Not are all regarded as logical negation.
                     </li>
-                    <li>
-                        Use the keyword "empty" as input word to check if the empty word is accepted.
-                    </li>
+
                     <li>
                         To indicate that a state is a final state, check the box next to it.
                     </li>
 
-                    @*<li>
-                If you would like to use subscripts for the states and appear as such, enclose them in dollar signs ($) and use underscore (_). For example, instead of "q0 and not q1" enter "\$q_0\$ and not \$q_1\$".
-            </li>*@
+                    <li>
+                        Use the keyword "empty" as input word to check if the empty word is accepted.
+                    </li>
+
+                    <li>
+                        Use the designated buttons to add states/letters and the "x" buttons to remove states/letters.
+                    </li>
                 </ul>
             </p>
 
             <br />
-            @*<p>
-                    <button id="generateExample" class="btn btn-info">Generate example</button>
-                </p>*@
 
-            <form asp-controller="Home" asp-action="Tree5" method="post" id="form">
-
+            <form asp-controller="Home" asp-action="Tree" method="post" id="form">
+                @*---------Generate Example Button and Initial State Field---------*@
                 <div class="form-group">
                     <div class="container">
                         <div class="row">
@@ -83,11 +75,12 @@
                         </div>
                     </div>
                 </div>
-                @*<div class="d-flex">*@
-                @*search-table-outter*@
+
+
+                @*---------Table element---------*@
+
                 <div class="table-responsive">
                     <table class="table table-bordered" id="myTable">
-
                         <thead>
                             <tr style="min-height: 1px;">
                                 <td class="border-0" style=" padding: 6px;"></td>
@@ -102,11 +95,9 @@
                             <tr class="bg-light">
 
                                 <th class=" text-center align-middle">Transition Function</th>
-
                                 <th class="text-center" id="headCell">
                                     <input class="form-control" id="letter1" placeholder="letter" type="text" name="letters" required>
                                 </th>
-
                                 <th>
                                     <input class="form-control" id="letter2" placeholder="letter" type="text" name="letters" required>
                                 </th>
@@ -168,11 +159,15 @@
                         </tbody>
                     </table>
                 </div>
+
+                @*---------Add Stale/Letter Buttons---------*@
+
                 <div class="form-group">
                     <input type="button" class="btn btn-light" onclick="addRow()" value="Add State" />
                     <input type="button" class="btn btn-light" onClick="addCol()" value="Add Letter" />
                 </div>
 
+                @*---------Input Word Field and Run Button---------*@
                 <div class="row">
                     <div class="col">
                         <input class="form-control" placeholder="Input Word" id="inputWord" type="text" name="inputWord" required>
@@ -185,7 +180,7 @@
         </div>
     </div>
 
-
+    @*---------Output Section---------*@
 
     <div class="row-fluid">
 
@@ -199,10 +194,8 @@
             <div class="d-flex flex-column justify-content-center" id="computationArea">
 
             </div>
-            @*<partial name="Tree.cshtml" />*@
         </div>
     </div>
-
 
 </body>
 

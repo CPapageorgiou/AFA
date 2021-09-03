@@ -11,13 +11,13 @@
 
 <body>
 
-    <div>
-        <h3> Alternating Finite Automata - Brief Tutorial</h3>
+    <div style="margin-top: 2%; margin-bottom: 2%">
+        <h3> Alternating Finite Automata - Tutorial</h3>
     </div>
 
     <div>
         <p>
-            An Alternating finite automaton consists of the following components:
+            An Alternating Finite Automaton consists of the following components:
             <ul>
                 <li>
                     <strong>$Q$</strong> -  the (ﬁnite) set of states,
@@ -35,16 +35,22 @@
                     <strong>$g$</strong> - the transition function.
                 </li>
             </ul>
-
-            Alternating finite automata extends nondeterminism by allowing any boolean expression to be included in the transition function. An alternating finite automaton works in the following way: when the automaton reads an input symbol $a$ in
+        </p>
+        <p style="text-align: justify">
+            Alternating finite automata (AFAs) are finite state machines that accept precisely the set of regular
+            languages and hence in terms of language recognition are equivalent to deterministinc and nondeterministic finite automata.
+            AFAs extend nondeterminism by allowing any boolean expression to be included in the transition function.
+            They have a lot of special properties and due to their low state-complexity they provide a succinct representation
+            of regular languages. This can be used to derive new approaches and techniques for solving problems concerning regular languages.
+            An alternating finite automaton works in the following way: when the automaton reads an input symbol $a$ in
             a given state $q$, it will activate all states of the automaton for which there exists a transition from $q$ with label
             $a$, to work on the remaining part of the input in parallel. Once the states have completed their tasks, $q$ will compute
             its value by applying a Boolean function on those results and pass on the resulting value to the state by which it was activated.
             A word $w$ is accepted if the starting state computes the value of 1. Otherwise, it is rejected.
             In other words, when the automaton reads a letter from the input word, it substitutes each
-            state of the current formula with the formula specified by the transition function. In such a way it builds gradually
+            state of the current formula with the formula specified by the transition function. In such a way, it builds gradually
             a propositional formula. As soon as the whole input word has been read by the automaton and the final formula
-            has been constructed, a boolean function applies mapping the final states to 1 and the non-final states to 0.
+            has been constructed, a boolean function applies, mapping the final states to 1 and the non-final states to 0.
             If the formula evaluates to 1, the input word is accepted. Otherwise, it is rejected.
         </p>
     </div>

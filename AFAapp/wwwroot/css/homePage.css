@@ -1,4 +1,5 @@
-﻿
+﻿/* CSS for the Index view */
+
 @media {
     .row-fluid [class*="span"] {
         float: left;
@@ -23,8 +24,6 @@
     }
 }
 
-
-
 @media {
     .row-fluid {
         width: 100%;
@@ -40,7 +39,6 @@ h3 {
     margin-top: 8%;
 }
 
-
 .table thead th {
     vertical-align: middle;
     border-bottom: 2px solid #dee2e6;
@@ -51,7 +49,6 @@ td.empty {
     border-width: 0px;
     border-color: blue;
 }
-
 
 .table td, .table th {
     padding: .75rem;
@@ -79,7 +76,6 @@ td.empty {
     opacity: .5;
     float: none;
 }
-
 
 html {
     position: relative;

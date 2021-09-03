@@ -3,37 +3,89 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-
 namespace AFAapp.Models
 {
+    // Responsible for the main functionality of the application.
+    // Includes methods for generateting computations step-by-step and creating
+    // the Tree object for the computation.
 
     public class ProgramManager
     {
-        public string inputWord { get; set; }
-        public AFA a { get; set; }
+        // Properties and Fields.
+        public string inputWord { get; }
+        public AFA afa { get; }
 
-        public ProgramManager(string inputWord, AFA a)
+        // Constructors.
+
+        // Object from the input word and the AFA. 
+        public ProgramManager(string inputWord, AFA afa)
         {
             this.inputWord = inputWord;
-            this.a = a;
+            this.afa = afa;
         }
 
-        public bool inputWordIsValid()
+
+        // ------------------------------- Generate Computation-Methods -------------------------------
+
+
+        // Generates the computation step-by-step.
+        public (List<Substitution>, Derivation) generateComputation()
         {
-            List<char> letters = a.getLetters();
-            return (inputWord.All(c => letters.Contains(c)));
+            Derivation d = new Derivation(afa.initialState, inputWord[0]);
+            var subsList = new List<Substitution>();
+            string initial = afa.initialState;
+            var keys = afa.getKeys();
+            int count = 0;
+            int level = 0;
+            foreach (char letter in inputWord)
+            {
+                string initialUpdated = "";
+                count += 1;
+                foreach (string str in Global.stringToArray(initial))
+                {
+                    var stateLetter = (str, letter);
+
+                    if (keys.Contains(stateLetter))
+                    {
+                        initialUpdated += "(" + afa.transitionFunction[stateLetter] + ")";
+                        subsList.Add(new Substitution(letter, str, afa.transitionFunction[stateLetter]));
+                    }
+
+                    else if (Global.connectives.Contains(str))
+                    {
+                        if (str != "not")
+                        {
+                            initialUpdated += " " + str + " ";
+                        }
+
+                        else
+                        {
+                            initialUpdated += str + " ";
+                        }
+                    }
+
+                    else if (Global.booleans.Contains(str) || str == "(" || str == ")")
+                    {
+                        initialUpdated += str;
+                    }
+                }
+
+                if (count < inputWord.Length)
+                {
+                    d.addStep(initialUpdated, inputWord[count]);
+                }
+
+                else
+                {
+                    d.addStep(initialUpdated, '\0');
+                }
+                initial = initialUpdated;
+                level += 1;
+            }
+            return (subsList, d);
         }
 
-
-        public (string, bool) determineAcceptance()
-        {
-            var (s, d) = activateAut();
-            string finalString = d.lastString();
-            string stringToEval = statesToBool(finalString, a.finalStates);
-            return ((stringToEval, computeString(stringToEval)));
-        }
-
-
+        // Assigns true to final states and false to non-final states in the last formula of the computation.
         public string statesToBool(string stringToEval, List<string> final)
         {
             string[] arr = Global.stringToArray(stringToEval);
@@ -64,140 +116,124 @@ namespace AFAapp.Models
             return newString;
         }
 
-
-
+        // Evauates the last formula of the computation.
         public static bool computeString(String expression)
         {
             DataTable table = new DataTable();
             return (bool)table.Compute(expression, "");
         }
 
-
-        public (List<(int level, char letter, (string state, string substitution))>, Derivation) activateAut()
+        // Returns a boolean indicating acceptance or not with the formula evaluated.
+        public (string, bool) determineAcceptance()
         {
-            int count = 0;
-            Derivation d = new Derivation(a.initialState, inputWord[0]);
-            var subsList = new List<(int level, char letter, (string state, string substitution))>();
-            int level = 0;
-            string initial = a.initialState;
-
-            foreach (char letter in inputWord)
-            {
-                string initialUpdated = "";
-                count += 1;
-
-                foreach (string j in Global.stringToArray(initial))
-                {
-                    var stateLetter = (j, letter);
-
-                    if (a.getKeys().Contains(stateLetter))
-                    {
-
-                        initialUpdated += "(" + a.transitionFunction[stateLetter] + ")";
-                        subsList.Add((level, letter, (j, a.transitionFunction[stateLetter])));
-
-                    }
-
-                    else if (Global.connectives.Contains(j))
-                    {
-                        if (j != "not")
-                        {
-                            initialUpdated += " " + j + " ";
-                        }
-
-                        if (j == "not")
-                        {
-                            initialUpdated += j + " ";
-                        }
-                    }
-
-                    else if (Global.booleans.Contains(j))
-                    {
-                        initialUpdated += j;
-                    }
-
-                    else if (j == "(" || j == ")")
-                    {
-                        initialUpdated += j;
-                    }
-                }
-
-                if (count < inputWord.Length)
-                {
-                    d.addStep(initialUpdated, inputWord[count]);
-                }
-
-                else
-                {
-                    d.addStep(initialUpdated, '\0');
-                }
-                initial = initialUpdated;
-                level += 1;
-            }
-            Console.WriteLine(d);
-            return (subsList, d);
+            var (s, d) = generateComputation();
+            string finalString = d.lastString();
+            string stringToEval = statesToBool(finalString, afa.finalStates);
+            return ((stringToEval, computeString(stringToEval)));
         }
 
 
+        // ------------------------------- Generate Tree -------------------------------
 
-        public List<(string, int)> generateConnectivesList2(string[] strArr)
+        // Genretates a Tree object from a computation.
+        public Tree generateTree(int currentLevel, Derivation d, List<Substitution> subsList, string parentFormula)
         {
+            Tree tree = new Tree();
 
-            var connectivesList = new List<(string, int)>();
-            int conInt = -1;
-
-            var strArrNoPar = strArr.Where(x => x != "(" && x != ")");
-
-            for (int i = 0; i < strArrNoPar.Count(); i++)
+            if (currentLevel == 0)
             {
-                if (Global.connectives.Contains(strArrNoPar.ElementAt(i)))
-                {
-
-                    if (i == 0 || !Global.connectives.Contains(strArrNoPar.ElementAt(i - 1)))
-                    {
-                        conInt += 1;
-                    }
-
-                    connectivesList.Add((strArrNoPar.ElementAt(i), conInt));
-                }
+                var firstStep = d.getStep(0);
+                tree.letter = firstStep.Item2;
+                tree.node = firstStep.Item1;
             }
 
-            return connectivesList;
+            int n = 0;
+            var step = d.getStep(currentLevel);
+            var letter = step.Item2;
+            var formula = Global.stringToArray(step.Item1);
+            //var formulaNoPar = formula.Where(x => x != "(" && x != ")");
+            var formulaNoPar = Global.stringToListNoPar(step.Item1);
+            var connectivesList = generateConnectivesList(formula);
+            var parentStates = statesFromFormula(parentFormula);
+
+            foreach (var con in connectivesList)
+            {
+                tree.addConnective(con.Item1, con.Item2);
+            }
+
+            foreach (var formulaComponent in formulaNoPar)
+            {
+                if (!Global.connectives.Contains(formulaComponent))
+                {
+                    foreach (var sub in subsList)
+                    {
+                        var parentFormulaList = Global.stringToListNoPar(parentFormula);
+                        var subParentFormulaLength = parentFormulaList.Count() - n;
+                        var subParentFormula = parentFormulaList.GetRange(n, subParentFormulaLength);
+
+                        if (letter == sub.letter && formulaComponent == sub.state && subParentFormula.Contains(formulaComponent))
+                        {
+                            if (numberOfStates(parentFormula) > n)
+                            {
+                                if (parentStates[n] == sub.state)
+                                {
+                                    n += 1;
+                                    char childLetter = d.getStep(currentLevel + 1).Item2;
+
+                                    subsList.Remove(sub);
+
+                                    if (currentLevel + 2 == d.length())
+                                    {
+                                        tree.addChild(new Tree(childLetter, sub.formula, tree.connectives));
+                                    }
+
+                                    else
+                                    {
+                                        tree.addChild(new Tree(childLetter, sub.formula, tree.connectives, new List<Tree> { generateTree(currentLevel + 1, d, subsList, sub.formula) }));
+                                    }
+
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            tree.removeEmpty();
+            return tree;
         }
 
-
-
+        // Returns a list of logical connectives where each element is a string
+        // of connectives with an integer insicating the child number at which the connectives
+        // should be added in the tree.
         public List<(string, int)> generateConnectivesList(string[] strArr)
         {
-
             var connectivesList = new List<(string, int)>();
-            int conInt2 = -1;
+            int conInt = -1;
 
             for (int j = 0; j < strArr.Count(); j++)
             {
                 string element = strArr.ElementAt(j);
 
-
                 if (Global.connectivesExceptNot.Contains(element))
                 {
-
                     if (j == 0 || !Global.connectives.Contains(findNearestNotPar(strArr, j - 1)))
                     {
-                        conInt2 += 1;
+                        conInt += 1;
                     }
-                    connectivesList.Add((element, conInt2));
+                    connectivesList.Add((element, conInt));
                 }
 
                 else if (element == "not")
                 {
                     if (strArr.ElementAt(j - 1) == "(")
                     {
-                        connectivesList.Add((strArr.ElementAt(j), conInt2 + 1));
+                        connectivesList.Add((strArr.ElementAt(j), conInt + 1));
                     }
 
                     else
                     {
-                        connectivesList.Add((strArr.ElementAt(j), conInt2));
+                        connectivesList.Add((strArr.ElementAt(j), conInt));
                     }
                 }
             }
@@ -205,32 +241,38 @@ namespace AFAapp.Models
             return connectivesList;
         }
 
-
+        // Returns the nearest element that is not parenthesis.
         public string findNearestNotPar(string[] arr, int ind)
         {
             string s = "";
 
-            try
+            for (int i = ind; i >= 0; i--)
             {
-                for (int i = ind; i >= 0; i--)
+                if (arr[i] != "(" && arr[i] != ")")
                 {
-                    if (arr[i] != "(" && arr[i] != ")")
-                    {
-                        s = arr[i];
-                        break;
-                    }
+                    s = arr[i];
+                    break;
                 }
-                return s;
             }
-            catch
-            {
-                Console.WriteLine("error");
-                return "abc";
-            }
+            return s;
         }
 
+        // Gives the states included in a formula.
+        public List<string> statesFromFormula(string formula)
+        {
+            var states = new List<string>();
+            var arr = Global.stringToArray(formula);
+            foreach (var item in arr)
+            {
+                if (!Global.connectives.Contains(item))
+                {
+                    states.Add(item);
+                }
+            }
+            return states;
+        }
 
-
+        // Returns the number of states in a formula.
         public int numberOfStates(string s)
         {
             int numberOfStates = 0;
@@ -242,72 +284,18 @@ namespace AFAapp.Models
                     numberOfStates += 1;
                 }
             }
-
             return numberOfStates;
         }
 
+        // Other methods.
 
-        public Tree generateTree(int level, Derivation d, List<(int level, char letter, (string state, string substitution))> subsList, string s)
+        // Checks if the input word is valid.
+        public bool inputWordIsValid()
         {
-            Tree tree = new Tree();
-
-            if (level == 0)
-            {
-                var firstStep = d.getStep(0);
-                tree.letter = firstStep.Item2;
-                tree.state = firstStep.Item1;
-            }
-
-            var step = d.getStep(level);
-
-            var strArr = Global.stringToArray(step.Item1);
-
-            var connectivesList = generateConnectivesList(strArr);
-
-            foreach (var con in connectivesList)
-            {
-                tree.addConnective(con.Item1, con.Item2);
-            }
-
-            var strArrNoPar = strArr.Where(x => x != "(" && x != ")");
-            var conList = new List<string>();
-            int n = 0;
-
-            foreach (var j in strArrNoPar)
-            {
-
-                if (!Global.connectives.Contains(j))
-                {
-
-                    foreach (var i in subsList)
-                    {
-
-                        if (step.Item2 == i.Item2 && j == i.Item3.Item1 && Global.stringToArray(s.Substring(n)).Contains(j))
-                        {
-                            n += 1;
-                            char m = d.getStep(level + 1).Item2;
-
-                            if (numberOfStates(s) > tree.children.Count)
-                            {
-                                subsList.Remove(i);
-                                if (level + 2 == d.length())
-                                {
-                                    tree.addChild(new Tree(m, i.Item3.Item2, tree.connectives));
-                                }
-
-                                else
-                                {
-                                    tree.addChild(new Tree(m, i.Item3.Item2, tree.connectives, new List<Tree> { generateTree(level + 1, d, subsList, i.Item3.Item2) }));
-                                }
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-            tree.removeEmpty();
-            return tree;
+            List<char> letters = afa.getLetters();
+            return inputWord.All(c => letters.Contains(c));
         }
+
     }
 }
 
